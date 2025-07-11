@@ -22,10 +22,19 @@ public final class SpringAIModels {
 		// Avoids instantiation
 	}
 
+	/**
+	 * Claude 4, Code Generation
+	 */
 	public static final String ANTHROPIC = "anthropic";
 
+	/**
+	 * 微软
+	 */
 	public static final String AZURE_OPENAI = "azure-openai";
 
+	/**
+	 * Amazon-亚马逊
+	 */
 	public static final String BEDROCK_COHERE = "bedrock-cohere";
 
 	public static final String BEDROCK_CONVERSE = "bedrock-converse";
@@ -42,6 +51,9 @@ public final class SpringAIModels {
 
 	public static final String OLLAMA = "ollama";
 
+	/**
+	 * ChatGPT，OpenAI
+	 */
 	public static final String OPENAI = "openai";
 
 	public static final String POSTGRESML = "postgresml";
@@ -54,6 +66,9 @@ public final class SpringAIModels {
 
 	public static final String ZHIPUAI = "zhipuai";
 
+	/**
+	 * DeepSeek V3，深度求索
+	 */
 	public static final String DEEPSEEK = "deepseek";
 
 }

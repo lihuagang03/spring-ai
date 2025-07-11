@@ -38,6 +38,8 @@ import org.springframework.util.StringUtils;
 /**
  * The Prompt class represents a prompt used in AI model requests. A prompt consists of
  * one or more messages and additional chat options.
+ * <p></p>
+ * 提示词
  *
  * @author Mark Pollack
  * @author luocongqiu

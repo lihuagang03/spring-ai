@@ -32,6 +32,8 @@ import org.springframework.util.StreamUtils;
  * The AbstractMessage class is an abstract implementation of the Message interface. It
  * provides a base implementation for message content, media attachments, metadata, and
  * message type.
+ * <p></p>
+ * 对话应用里的一条消息的框架实现
  *
  * @see Message
  */

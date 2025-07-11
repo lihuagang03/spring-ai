@@ -22,6 +22,8 @@ import java.util.Map;
  * Data structure that contains content and metadata. Common parent for the
  * {@link org.springframework.ai.document.Document} and the
  * org.springframework.ai.chat.messages.Message classes.
+ * <p></p>
+ * 消息的内容和元数据
  *
  * @author Mark Pollack
  * @author Christian Tzolov

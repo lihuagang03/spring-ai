@@ -23,6 +23,8 @@ import org.springframework.ai.content.Media;
  * The Message interface represents a message that can be sent or received in a chat
  * application. Messages can have content, media attachments, properties, and message
  * types.
+ * <p></p>
+ * 对话应用里的一条消息
  *
  * @see Media
  * @see MessageType
