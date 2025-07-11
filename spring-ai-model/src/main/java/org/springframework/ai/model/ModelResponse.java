@@ -24,6 +24,8 @@ import java.util.List;
  * with the response metadata. It serves as a standardized way to encapsulate and manage
  * the output from AI models, ensuring easy retrieval and processing of the generated
  * information.
+ * <p></p>
+ * AI模型的响应出参
  *
  * @param <T> the type of the result(s) provided by the AI model
  * @author Mark Pollack

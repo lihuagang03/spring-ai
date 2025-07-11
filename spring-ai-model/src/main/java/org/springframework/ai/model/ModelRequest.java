@@ -22,6 +22,8 @@ package org.springframework.ai.model;
  * inputs (of generic type T) and additional model options. It provides a standardized way
  * to send requests to AI models, ensuring that all necessary details are included and can
  * be easily managed.
+ * <p></p>
+ * AI模型的请求入参
  *
  * @param <T> the type of instructions or input required by the AI model
  * @author Mark Pollack

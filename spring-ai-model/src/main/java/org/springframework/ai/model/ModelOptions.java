@@ -22,6 +22,8 @@ package org.springframework.ai.model;
  * influence the behavior and output of AI models. It is designed to provide flexibility
  * and adaptability in different AI scenarios, ensuring that the AI models can be
  * fine-tuned according to specific requirements.
+ * <p></p>
+ * AI模型交互的自定义选项
  *
  * @author Mark Pollack
  * @since 0.8.0

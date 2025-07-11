@@ -24,6 +24,8 @@ import reactor.core.publisher.Flux;
  * streaming responses. The interface uses Java generics to accommodate different types of
  * requests and responses, enhancing flexibility and adaptability across different AI
  * model implementations.
+ * <p></p>
+ * 调用AI模型的流式响应的API
  *
  * @param <TReq> the generic type of the request to the AI model
  * @param <TResChunk> the generic type of a single item in the streaming response from the

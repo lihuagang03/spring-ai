@@ -22,6 +22,8 @@ package org.springframework.ai.model;
  * sending requests and receiving responses. The interface uses Java generics to
  * accommodate different types of requests and responses, enhancing flexibility and
  * adaptability across different AI model implementations.
+ * <p></p>
+ * 调用AI模型的API
  *
  * @param <TReq> the generic type of the request to the AI model
  * @param <TRes> the generic type of the response from the AI model
