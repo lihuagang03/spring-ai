@@ -37,6 +37,15 @@ import org.springframework.util.Assert;
  * similarity searches based on vector representations of data rather than exact matches.
  * This interface allows for adding, deleting, and searching documents based on their
  * similarity to a given query.
+ * <p></p>
+ * 向量存储，是一种用于存储和检索高维向量数据的存储解决方案，它特别适用于处理那些经过嵌入模型转化后的数据。
+ * 它们执行相似性搜索，而不是精确匹配。
+ * 当给定一个向量作为查询时，VectorStore 返回与查询向量“相似”的向量。
+ * <p></p>
+ * VectorStore 用于将您的数据与 AI 模型集成。在使用它们时的第一步是将您的数据加载到向量数据库中。
+ * 然后，当要将用户查询发送到 AI 模型时，首先检索一组相似文档片段。
+ * 然后，这些文档片段作为用户问题的上下文，并与用户的查询一起发送到 AI 模型。
+ * 这种技术被称为检索增强生成（Retrieval Augmented Generation，RAG）。
  */
 public interface VectorStore extends DocumentWriter {
 
@@ -83,6 +92,8 @@ public interface VectorStore extends DocumentWriter {
 		Assert.notNull(textExpression, "Filter expression must not be null");
 		this.delete(textExpression);
 	}
+
+	// 相似性搜索
 
 	/**
 	 * Retrieves documents by query embedding similarity and metadata filters to retrieve
