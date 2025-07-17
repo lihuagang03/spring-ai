@@ -54,8 +54,14 @@ public class QuestionAnswerAdvisor implements BaseAdvisor {
 
 	public static final String RETRIEVED_DOCUMENTS = "qa_retrieved_documents";
 
+	/**
+	 * 筛选表达式
+	 */
 	public static final String FILTER_EXPRESSION = "qa_filter_expression";
 
+	/**
+	 * 默认的提示词模板
+	 */
 	private static final PromptTemplate DEFAULT_PROMPT_TEMPLATE = new PromptTemplate("""
 			{query}
 
@@ -72,8 +78,14 @@ public class QuestionAnswerAdvisor implements BaseAdvisor {
 
 	private static final int DEFAULT_ORDER = 0;
 
+	/**
+	 * 向量存储
+	 */
 	private final VectorStore vectorStore;
 
+	/**
+	 * 提示词模板
+	 */
 	private final PromptTemplate promptTemplate;
 
 	private final SearchRequest searchRequest;
