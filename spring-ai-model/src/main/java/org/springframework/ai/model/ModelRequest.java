@@ -23,7 +23,7 @@ package org.springframework.ai.model;
  * to send requests to AI models, ensuring that all necessary details are included and can
  * be easily managed.
  * <p></p>
- * AI模型的请求入参
+ * AI模型的输入
  *
  * @param <T> the type of instructions or input required by the AI model
  * @author Mark Pollack

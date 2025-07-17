@@ -23,7 +23,7 @@ package org.springframework.ai.model;
  * and adaptability in different AI scenarios, ensuring that the AI models can be
  * fine-tuned according to specific requirements.
  * <p></p>
- * AI模型交互的自定义选项
+ * AI模型交互的自定义参数
  *
  * @author Mark Pollack
  * @since 0.8.0
