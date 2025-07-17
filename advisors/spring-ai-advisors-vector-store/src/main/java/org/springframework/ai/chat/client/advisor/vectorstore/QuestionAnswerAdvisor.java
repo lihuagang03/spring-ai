@@ -43,6 +43,8 @@ import org.springframework.util.StringUtils;
 /**
  * Context for the question is retrieved from a Vector Store and added to the prompt's
  * user text.
+ * <p></p>
+ * 知识问答顾问，从向量存储检索问题的上下文，并将其添加到提示词的用户文本。
  *
  * @author Christian Tzolov
  * @author Timo Salm
