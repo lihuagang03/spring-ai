@@ -26,6 +26,12 @@ import org.springframework.ai.chat.prompt.ChatOptions;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.model.Model;
 
+/**
+ * 对话模型，文本聊天交互模型。
+ * <p></p>
+ * 其工作原理是接收 Prompt 或部分对话作为输入，将输入发送给后端大模型，模型根据其训练数据和对自然语言的理解生成对话响应，
+ * 应用程序可以将响应呈现给用户或用于进一步处理。
+ */
 public interface ChatModel extends Model<Prompt, ChatResponse>, StreamingChatModel {
 
 	default String call(String message) {
@@ -47,6 +53,7 @@ public interface ChatModel extends Model<Prompt, ChatResponse>, StreamingChatMod
 		return ChatOptions.builder().build();
 	}
 
+	@Override
 	default Flux<ChatResponse> stream(Prompt prompt) {
 		throw new UnsupportedOperationException("streaming is not supported");
 	}

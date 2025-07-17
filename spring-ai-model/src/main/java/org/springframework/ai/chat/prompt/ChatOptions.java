@@ -24,6 +24,8 @@ import org.springframework.lang.Nullable;
 /**
  * {@link ModelOptions} representing the common options that are portable across different
  * chat models.
+ * <p></p>
+ * 对话模型的交互参数
  */
 public interface ChatOptions extends ModelOptions {
 
