@@ -24,6 +24,9 @@ import org.springframework.ai.chat.messages.Message;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.model.StreamingModel;
 
+/**
+ * 对话模型的流式响应的API
+ */
 @FunctionalInterface
 public interface StreamingChatModel extends StreamingModel<Prompt, ChatResponse> {
 

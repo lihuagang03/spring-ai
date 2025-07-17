@@ -26,7 +26,7 @@ import io.micrometer.common.lang.Nullable;
 /**
  * Interface representing metadata associated with an AI model's response.
  * <p></p>
- * AI模型的响应出参相关的元数据
+ * AI模型的响应元数据
  *
  * @author Mark Pollack
  * @since 1.0.0
