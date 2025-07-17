@@ -22,6 +22,8 @@ import org.springframework.core.convert.converter.Converter;
  * Converts the (raw) LLM output into a structured responses of type. The
  * {@link FormatProvider#getFormat()} method should provide the LLM prompt description of
  * the desired format.
+ * <p></p>
+ * 结构化输出
  *
  * @param <T> Specifies the desired response type.
  * @author Mark Pollack
