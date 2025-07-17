@@ -47,8 +47,14 @@ import org.springframework.util.StringUtils;
  */
 public class Prompt implements ModelRequest<List<Message>> {
 
+	/**
+	 * 对话应用里的消息列表
+	 */
 	private final List<Message> messages;
 
+	/**
+	 * 对话模型的交互参数
+	 */
 	@Nullable
 	private ChatOptions chatOptions;
 
