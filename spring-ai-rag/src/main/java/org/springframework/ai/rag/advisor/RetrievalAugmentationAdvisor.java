@@ -50,6 +50,8 @@ import org.springframework.util.Assert;
  * Advisor that implements common Retrieval Augmented Generation (RAG) flows using the
  * building blocks defined in the {@link org.springframework.ai.rag} package and following
  * the Modular RAG Architecture.
+ * <p></p>
+ * 检索增强生成(RAG)顾问
  *
  * @author Christian Tzolov
  * @author Thomas Vitale
@@ -60,6 +62,9 @@ import org.springframework.util.Assert;
  */
 public final class RetrievalAugmentationAdvisor implements BaseAdvisor {
 
+	/**
+	 * RAG文档上下文
+	 */
 	public static final String DOCUMENT_CONTEXT = "rag_document_context";
 
 	private final List<QueryTransformer> queryTransformers;
