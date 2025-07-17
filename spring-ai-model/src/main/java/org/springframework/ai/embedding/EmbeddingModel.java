@@ -25,6 +25,11 @@ import org.springframework.util.Assert;
 
 /**
  * EmbeddingModel is a generic interface for embedding models.
+ * <p></p>
+ * 嵌入模型
+ * <p></p>
+ * 嵌入(Embedding)的工作原理是将文本、图像和视频转换为向量(Vectors)的浮点数数组。
+ * 嵌入模型(EmbeddingModel)是嵌入过程中采用的模型。
  *
  * @author Mark Pollack
  * @author Christian Tzolov
@@ -38,6 +43,8 @@ public interface EmbeddingModel extends Model<EmbeddingRequest, EmbeddingRespons
 
 	@Override
 	EmbeddingResponse call(EmbeddingRequest request);
+
+	// 向量嵌入
 
 	/**
 	 * Embeds the given text into a vector.
