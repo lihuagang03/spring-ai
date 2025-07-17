@@ -35,6 +35,8 @@ import org.springframework.lang.Nullable;
 
 /**
  * A simple logger advisor that logs the request and response messages.
+ * <p></p>
+ * 日志记录顾问，一个用于记录 ChatClient 的请求入参和响应出参的消息数据，这对于调试和监控您的AI交互非常有用。
  *
  * @author Christian Tzolov
  */
