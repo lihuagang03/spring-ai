@@ -23,6 +23,14 @@ import org.springframework.util.Assert;
 
 /**
  * The contract for storing and managing the memory of chat conversations.
+ * <p></p>
+ * 聊天记忆，表示聊天对话历史记录的存储。
+ * 它提供向对话添加消息、从对话中检索消息以及清除对话历史记录的方法。
+ * <p></p>
+ * "大模型的对话记忆"这一概念，根植于人工智能与自然语言处理领域，特别是针对具有深度学习能力的大型语言模型而言，
+ * 它指的是模型在与用户进行交互式对话过程中，能够追踪、理解并利用先前对话上下文的能力。
+ * 此机制使得大模型不仅能够响应即时的输入请求，还能基于之前的交流内容能够在对话中记住先前的对话内容，并根据这些信息进行后续的响应。
+ * 这种记忆机制使得模型能够在对话中持续跟踪和理解用户的意图和上下文，从而实现更自然和连贯的对话。
  *
  * @author Christian Tzolov
  * @author Thomas Vitale
