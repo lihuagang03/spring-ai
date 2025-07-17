@@ -38,6 +38,8 @@ import org.springframework.util.Assert;
 
 /**
  * Memory is retrieved added as a collection of messages to the prompt
+ * <p></p>
+ * 检索内存并将消息集合添加到提示词中。
  *
  * @author Christian Tzolov
  * @author Mark Pollack
@@ -48,6 +50,9 @@ public final class MessageChatMemoryAdvisor implements BaseChatMemoryAdvisor {
 
 	private final ChatMemory chatMemory;
 
+	/**
+	 * 唯一的对话ID
+	 */
 	private final String defaultConversationId;
 
 	private final int order;
