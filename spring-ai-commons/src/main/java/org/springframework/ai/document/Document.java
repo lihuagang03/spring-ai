@@ -35,6 +35,8 @@ import org.springframework.util.StringUtils;
 /**
  * A document is a container for the content and metadata of a document. It also contains
  * the document's unique ID.
+ * <p></p>
+ * 一个文档片段，它包含一个文本内容，以及元数据。
  *
  * A Document can hold either text content or media content, but not both.
  *
