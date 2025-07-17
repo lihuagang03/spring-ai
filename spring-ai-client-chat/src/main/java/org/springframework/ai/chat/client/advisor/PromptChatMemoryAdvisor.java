@@ -45,6 +45,8 @@ import org.springframework.util.Assert;
 
 /**
  * Memory is retrieved added into the prompt's system text.
+ * <p></p>
+ * 检索内存并将其添加到提示词的系统文本中。
  *
  * @author Christian Tzolov
  * @author Miloš Havránek
@@ -56,6 +58,9 @@ public final class PromptChatMemoryAdvisor implements BaseChatMemoryAdvisor {
 
 	private static final Logger logger = LoggerFactory.getLogger(PromptChatMemoryAdvisor.class);
 
+	/**
+	 * 默认的系统提示词模板
+	 */
 	private static final PromptTemplate DEFAULT_SYSTEM_PROMPT_TEMPLATE = new PromptTemplate("""
 			{instructions}
 
