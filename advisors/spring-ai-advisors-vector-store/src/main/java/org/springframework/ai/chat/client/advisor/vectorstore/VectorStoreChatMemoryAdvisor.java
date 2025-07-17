@@ -45,6 +45,8 @@ import org.springframework.util.Assert;
 
 /**
  * Memory is retrieved from a VectorStore added into the prompt's system text.
+ * <p></p>
+ * 从向量存储中检索对话记忆，并添加到提示词的系统指令文本。
  *
  * This only works for text based exchanges with the models, not multi-modal exchanges.
  *
@@ -64,6 +66,9 @@ public final class VectorStoreChatMemoryAdvisor implements BaseChatMemoryAdvisor
 
 	private static final int DEFAULT_TOP_K = 20;
 
+	/**
+	 * 默认的系统提示词模板
+	 */
 	private static final PromptTemplate DEFAULT_SYSTEM_PROMPT_TEMPLATE = new PromptTemplate("""
 			{instructions}
 
@@ -85,6 +90,9 @@ public final class VectorStoreChatMemoryAdvisor implements BaseChatMemoryAdvisor
 
 	private final Scheduler scheduler;
 
+	/**
+	 * 向量存储
+	 */
 	private final VectorStore vectorStore;
 
 	private VectorStoreChatMemoryAdvisor(PromptTemplate systemPromptTemplate, int defaultTopK,
