@@ -35,6 +35,8 @@ import org.springframework.util.StringUtils;
  * A message of the type 'user' passed as input Messages with the user role are from the
  * end-user or developer. They represent questions, prompts, or any input that you want
  * the generative to respond to.
+ * <p></p>
+ * 用户的消息，用户角色
  */
 public class UserMessage extends AbstractMessage implements MediaContent {
 
