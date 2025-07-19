@@ -31,7 +31,7 @@ import org.springframework.util.CollectionUtils;
  * including assistant messages in the series, you provide context to the generative about
  * prior exchanges in the conversation.
  * <p></p>
- * 助手的消息，助手角色
+ * 助手消息，助手角色
  *
  * @author Mark Pollack
  * @author Christian Tzolov

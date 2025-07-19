@@ -32,7 +32,7 @@ import org.springframework.util.StringUtils;
  * generative to behave like a certain character or to provide answers in a specific
  * format.
  * <p></p>
- * 系统指令的消息，系统角色
+ * 系统消息，系统角色
  */
 public class SystemMessage extends AbstractMessage {
 

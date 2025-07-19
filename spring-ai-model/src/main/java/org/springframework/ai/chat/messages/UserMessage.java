@@ -36,7 +36,7 @@ import org.springframework.util.StringUtils;
  * end-user or developer. They represent questions, prompts, or any input that you want
  * the generative to respond to.
  * <p></p>
- * 用户的消息，用户角色
+ * 用户消息，用户角色
  */
 public class UserMessage extends AbstractMessage implements MediaContent {
 

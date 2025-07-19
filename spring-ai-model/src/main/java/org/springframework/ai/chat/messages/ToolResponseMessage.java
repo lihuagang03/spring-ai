@@ -24,7 +24,7 @@ import java.util.Objects;
  * The ToolResponseMessage class represents a message with a function content in a chat
  * application.
  * <p></p>
- * 工具调用函数的响应消息，用AI访问业务接口。
+ * 工具调用的响应消息，用AI访问业务接口。
  * 工具/功能角色
  *
  * @author Christian Tzolov
