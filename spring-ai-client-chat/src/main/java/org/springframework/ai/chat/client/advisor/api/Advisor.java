@@ -20,6 +20,8 @@ import org.springframework.core.Ordered;
 
 /**
  * Parent advisor interface for all advisors.
+ * <p></p>
+ * 顾问接口
  *
  * @author Christian Tzolov
  * @author Dariusz Jedrzejczyk
