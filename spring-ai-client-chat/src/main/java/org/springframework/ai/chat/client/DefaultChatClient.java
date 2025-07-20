@@ -67,6 +67,8 @@ import org.springframework.util.StringUtils;
 /**
  * The default implementation of {@link ChatClient} as created by the
  * {@link Builder#build()} } method.
+ * <p></p>
+ * 对话客户端的默认实现。
  *
  * @author Mark Pollack
  * @author Christian Tzolov
@@ -560,6 +562,9 @@ public class DefaultChatClient implements ChatClient {
 
 	}
 
+	/**
+	 * 默认的对话客户端的请求规范
+	 */
 	public static class DefaultChatClientRequestSpec implements ChatClientRequestSpec {
 
 		private final ObservationRegistry observationRegistry;
