@@ -42,6 +42,8 @@ import org.springframework.util.Assert;
 
 /**
  * DefaultChatClientBuilder is a builder class for creating a ChatClient.
+ * <p></p>
+ * 创建对话客户端实例的构建者。
  *
  * It provides methods to set default values for various properties of the ChatClient.
  *
@@ -54,6 +56,9 @@ import org.springframework.util.Assert;
  */
 public class DefaultChatClientBuilder implements Builder {
 
+	/**
+	 * 默认的对话客户端的请求规范
+	 */
 	protected final DefaultChatClientRequestSpec defaultRequest;
 
 	DefaultChatClientBuilder(ChatModel chatModel) {
@@ -64,18 +69,23 @@ public class DefaultChatClientBuilder implements Builder {
 			@Nullable ChatClientObservationConvention customObservationConvention) {
 		Assert.notNull(chatModel, "the " + ChatModel.class.getName() + " must be non-null");
 		Assert.notNull(observationRegistry, "the " + ObservationRegistry.class.getName() + " must be non-null");
+		// 默认的对话客户端的请求规范
 		this.defaultRequest = new DefaultChatClientRequestSpec(chatModel, null, Map.of(), null, Map.of(), List.of(),
 				List.of(), List.of(), List.of(), null, List.of(), Map.of(), observationRegistry,
 				customObservationConvention, Map.of(), null);
 	}
 
 	public ChatClient build() {
+		// 对话客户端的默认实现
 		return new DefaultChatClient(this.defaultRequest);
 	}
 
 	public Builder clone() {
 		return this.defaultRequest.mutate();
 	}
+
+	// 定制 ChatClient 默认值
+	// 默认的顾问链
 
 	public Builder defaultAdvisors(Advisor... advisors) {
 		this.defaultRequest.advisors(advisors);
@@ -92,10 +102,14 @@ public class DefaultChatClientBuilder implements Builder {
 		return this;
 	}
 
+	// 默认的AI模型的交互参数
+
 	public Builder defaultOptions(ChatOptions chatOptions) {
 		this.defaultRequest.options(chatOptions);
 		return this;
 	}
+
+	// 默认的用户提示词
 
 	public Builder defaultUser(String text) {
 		this.defaultRequest.user(text);
@@ -123,6 +137,8 @@ public class DefaultChatClientBuilder implements Builder {
 		return this;
 	}
 
+	// 默认的系统提示词
+
 	public Builder defaultSystem(String text) {
 		this.defaultRequest.system(text);
 		return this;
@@ -148,6 +164,8 @@ public class DefaultChatClientBuilder implements Builder {
 		this.defaultRequest.system(systemSpecConsumer);
 		return this;
 	}
+
+	// 默认的工具调用
 
 	@Override
 	public Builder defaultToolNames(String... toolNames) {
@@ -184,13 +202,18 @@ public class DefaultChatClientBuilder implements Builder {
 		return this;
 	}
 
+	// 默认的提示词模板
+
 	public Builder defaultTemplateRenderer(TemplateRenderer templateRenderer) {
 		Assert.notNull(templateRenderer, "templateRenderer cannot be null");
 		this.defaultRequest.templateRenderer(templateRenderer);
 		return this;
 	}
 
+	// 对话记忆
+
 	void addMessages(List<Message> messages) {
+		// 对话历史记录
 		this.defaultRequest.messages(messages);
 	}
 

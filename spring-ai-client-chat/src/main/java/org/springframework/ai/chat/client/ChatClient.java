@@ -329,7 +329,7 @@ public interface ChatClient {
 		// 定制 ChatClient 默认值
 		// 默认的顾问链
 
-		Builder defaultAdvisors(Advisor... advisor);
+		Builder defaultAdvisors(Advisor... advisors);
 
 		Builder defaultAdvisors(Consumer<AdvisorSpec> advisorSpecConsumer);
 
