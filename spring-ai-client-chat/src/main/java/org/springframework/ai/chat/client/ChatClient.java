@@ -45,6 +45,8 @@ import org.springframework.util.MimeType;
 
 /**
  * Client to perform stateless requests to an AI Model, using a fluent API.
+ * <p></p>
+ * 对话客户端，向 AI 模型执行无状态请求，使用流畅的 API。
  *
  * Use {@link ChatClient#builder(ChatModel)} to prepare an instance.
  *
@@ -56,6 +58,9 @@ import org.springframework.util.MimeType;
  * @since 1.0.0
  */
 public interface ChatClient {
+
+	// 对话模型-ChatModel
+	// 对话客户端
 
 	static ChatClient create(ChatModel chatModel) {
 		return create(chatModel, ObservationRegistry.NOOP);
@@ -72,6 +77,8 @@ public interface ChatClient {
 		return builder(chatModel, observationRegistry, observationConvention).build();
 	}
 
+	// 创建对话客户端实例的构建者
+
 	static Builder builder(ChatModel chatModel) {
 		return builder(chatModel, ObservationRegistry.NOOP, null);
 	}
@@ -80,8 +87,12 @@ public interface ChatClient {
 			@Nullable ChatClientObservationConvention customObservationConvention) {
 		Assert.notNull(chatModel, "chatModel cannot be null");
 		Assert.notNull(observationRegistry, "observationRegistry cannot be null");
+		// 创建对话客户端实例的构建者
 		return new DefaultChatClientBuilder(chatModel, observationRegistry, customObservationConvention);
 	}
+
+	// 提示词-Prompt
+	// 对话客户端的请求规范
 
 	ChatClientRequestSpec prompt();
 
@@ -96,6 +107,9 @@ public interface ChatClient {
 	 */
 	Builder mutate();
 
+	/**
+	 * 提示用户的规范
+	 */
 	interface PromptUserSpec {
 
 		PromptUserSpec text(String text);
@@ -118,6 +132,8 @@ public interface ChatClient {
 
 	/**
 	 * Specification for a prompt system.
+	 * <p></p>
+	 * 提示系统的规范
 	 */
 	interface PromptSystemSpec {
 
@@ -133,6 +149,16 @@ public interface ChatClient {
 
 	}
 
+	/**
+	 * 顾问的规范
+	 * <p></p>
+	 * 使用上下文数据附加或扩充 Prompt
+	 * 用于扩充 Prompt 的上下文数据
+	 * <pre>
+	 * 您自己的数据
+	 * 对话历史记录
+	 * </pre>
+	 */
 	interface AdvisorSpec {
 
 		AdvisorSpec param(String k, Object v);
@@ -145,7 +171,12 @@ public interface ChatClient {
 
 	}
 
+	/**
+	 * 同步响应的规范
+	 */
 	interface CallResponseSpec {
+
+		// 返回实体类-Entity
 
 		@Nullable
 		<T> T entity(ParameterizedTypeReference<T> type);
@@ -155,6 +186,8 @@ public interface ChatClient {
 
 		@Nullable
 		<T> T entity(Class<T> type);
+
+		// 返回 ChatResponse
 
 		ChatClientResponse chatClientResponse();
 
@@ -172,6 +205,9 @@ public interface ChatClient {
 
 	}
 
+	/**
+	 * 流式响应的规范
+	 */
 	interface StreamResponseSpec {
 
 		Flux<ChatClientResponse> chatClientResponse();
@@ -182,6 +218,9 @@ public interface ChatClient {
 
 	}
 
+	/**
+	 * 同步提示词的响应规范
+	 */
 	interface CallPromptResponseSpec {
 
 		String content();
@@ -192,6 +231,9 @@ public interface ChatClient {
 
 	}
 
+	/**
+	 * 流式提示词的响应规范
+	 */
 	interface StreamPromptResponseSpec {
 
 		Flux<ChatResponse> chatResponse();
@@ -200,6 +242,9 @@ public interface ChatClient {
 
 	}
 
+	/**
+	 * 对话客户端的请求规范
+	 */
 	interface ChatClientRequestSpec {
 
 		/**
@@ -208,17 +253,25 @@ public interface ChatClient {
 		 */
 		Builder mutate();
 
+		// 顾问链
+
 		ChatClientRequestSpec advisors(Consumer<AdvisorSpec> consumer);
 
 		ChatClientRequestSpec advisors(Advisor... advisors);
 
 		ChatClientRequestSpec advisors(List<Advisor> advisors);
 
+		// 对话记忆
+
 		ChatClientRequestSpec messages(Message... messages);
 
 		ChatClientRequestSpec messages(List<Message> messages);
 
+		// AI模型的交互参数
+
 		<T extends ChatOptions> ChatClientRequestSpec options(T options);
+
+		// 工具调用
 
 		ChatClientRequestSpec toolNames(String... toolNames);
 
@@ -232,6 +285,8 @@ public interface ChatClient {
 
 		ChatClientRequestSpec toolContext(Map<String, Object> toolContext);
 
+		// 系统提示词
+
 		ChatClientRequestSpec system(String text);
 
 		ChatClientRequestSpec system(Resource textResource, Charset charset);
@@ -239,6 +294,8 @@ public interface ChatClient {
 		ChatClientRequestSpec system(Resource text);
 
 		ChatClientRequestSpec system(Consumer<PromptSystemSpec> consumer);
+
+		// 用户提示词
 
 		ChatClientRequestSpec user(String text);
 
@@ -248,9 +305,15 @@ public interface ChatClient {
 
 		ChatClientRequestSpec user(Consumer<PromptUserSpec> consumer);
 
+		// 提示词模板
+
 		ChatClientRequestSpec templateRenderer(TemplateRenderer templateRenderer);
 
+		// 同步响应
+
 		CallResponseSpec call();
+
+		// 流式响应
 
 		StreamResponseSpec stream();
 
@@ -258,8 +321,13 @@ public interface ChatClient {
 
 	/**
 	 * A mutable builder for creating a {@link ChatClient}.
+	 * <p></p>
+	 * 创建对话客户端实例的构建者
 	 */
 	interface Builder {
+
+		// 定制 ChatClient 默认值
+		// 默认的顾问链
 
 		Builder defaultAdvisors(Advisor... advisor);
 
@@ -267,7 +335,11 @@ public interface ChatClient {
 
 		Builder defaultAdvisors(List<Advisor> advisors);
 
+		// 默认的AI模型的交互参数
+
 		Builder defaultOptions(ChatOptions chatOptions);
+
+		// 默认的用户提示词
 
 		Builder defaultUser(String text);
 
@@ -277,6 +349,8 @@ public interface ChatClient {
 
 		Builder defaultUser(Consumer<PromptUserSpec> userSpecConsumer);
 
+		// 默认的系统提示词
+
 		Builder defaultSystem(String text);
 
 		Builder defaultSystem(Resource text, Charset charset);
@@ -285,7 +359,11 @@ public interface ChatClient {
 
 		Builder defaultSystem(Consumer<PromptSystemSpec> systemSpecConsumer);
 
+		// 默认的提示词模板
+
 		Builder defaultTemplateRenderer(TemplateRenderer templateRenderer);
+
+		// 默认的工具调用
 
 		Builder defaultToolNames(String... toolNames);
 
@@ -300,6 +378,8 @@ public interface ChatClient {
 		Builder defaultToolContext(Map<String, Object> toolContext);
 
 		Builder clone();
+
+		// 创建新的对话客户端实例
 
 		ChatClient build();
 
