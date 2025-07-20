@@ -25,6 +25,7 @@ import org.springframework.util.Assert;
 /**
  * Represents a request processed by a {@link ChatClient} that ultimately is used to build
  * a {@link Prompt} to be sent to an AI model.
+ * 对话客户端的输入，表示由对话客户端处理的请求，最终用于构建要发送给 AI 模型的提示词。
  *
  * @param prompt The prompt to be sent to the AI model
  * @param context The contextual data through the execution chain
@@ -47,15 +48,23 @@ public record ChatClientRequest(Prompt prompt, Map<String, Object> context) {
 		return new Builder().prompt(this.prompt.copy()).context(new HashMap<>(this.context));
 	}
 
+	// 构建者模式
+
 	public static Builder builder() {
 		return new Builder();
 	}
 
 	public static final class Builder {
 
+		/**
+		 * 发送给AI模型的提示词
+		 */
 		private Prompt prompt;
 
-		private Map<String, Object> context = new HashMap<>();
+		/**
+		 * 执行链中的上下文数据
+		 */
+		private final Map<String, Object> context = new HashMap<>();
 
 		private Builder() {
 		}
