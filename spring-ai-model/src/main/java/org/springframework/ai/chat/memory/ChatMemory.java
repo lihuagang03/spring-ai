@@ -24,7 +24,7 @@ import org.springframework.util.Assert;
 /**
  * The contract for storing and managing the memory of chat conversations.
  * <p></p>
- * 聊天记忆，表示聊天对话历史记录的存储。
+ * 对话记忆，对话历史记录的存储。
  * 它提供向对话添加消息、从对话中检索消息以及清除对话历史记录的方法。
  * <p></p>
  * "大模型的对话记忆"这一概念，根植于人工智能与自然语言处理领域，特别是针对具有深度学习能力的大型语言模型而言，
