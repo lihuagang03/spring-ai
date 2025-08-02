@@ -19,6 +19,8 @@ package org.springframework.ai.observation.conventions;
 /**
  * Types of operations performed by AI systems. Based on the OpenTelemetry Semantic
  * Conventions for AI Systems.
+ * <p></p>
+ * 由 AI 系统执行的操作类型。
  *
  * @author Thomas Vitale
  * @since 1.0.0

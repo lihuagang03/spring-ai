@@ -19,6 +19,8 @@ package org.springframework.ai.observation.conventions;
 /**
  * Collection of systems providing AI functionality. Based on the OpenTelemetry Semantic
  * Conventions for AI Systems.
+ * <p></p>
+ * AI 提供商，提供 AI 功能系统。
  *
  * @author Thomas Vitale
  * @since 1.0.0
@@ -70,8 +72,6 @@ public enum AiProvider {
 	 * AI system provided by Minimax.
 	 */
 	MINIMAX("minimax"),
-
-
 
 	/**
 	 * AI system provided by Zhipuai.

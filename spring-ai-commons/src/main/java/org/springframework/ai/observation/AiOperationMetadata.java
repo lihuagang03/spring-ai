@@ -23,6 +23,8 @@ import org.springframework.util.Assert;
 /**
  * Metadata associated with an AI operation (e.g. model inference, fine-tuning,
  * evaluation).
+ * <p></p>
+ * 与 AI 操作相关的元数据。
  *
  * @param operationType The type of operation performed by the model. Whenever possible, a
  * value from {@link AiOperationType}.
