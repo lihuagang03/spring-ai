@@ -32,6 +32,8 @@ import org.springframework.util.StringUtils;
 
 /**
  * Context used to store metadata for chat client workflows.
+ * <p></p>
+ * 用于存储对话客户端工作流元数据的上下文。
  *
  * @author Christian Tzolov
  * @author Thomas Vitale
@@ -39,13 +41,25 @@ import org.springframework.util.StringUtils;
  */
 public class ChatClientObservationContext extends Observation.Context {
 
+	/**
+	 * 对话客户端的输入
+	 */
 	private final ChatClientRequest request;
 
+	/**
+	 * 与 AI 操作相关的元数据
+	 */
 	private final AiOperationMetadata operationMetadata = new AiOperationMetadata(AiOperationType.FRAMEWORK.value(),
 			AiProvider.SPRING_AI.value());
 
+	/**
+	 * 顾问链
+	 */
 	private final List<? extends Advisor> advisors;
 
+	/**
+	 * 流式调用？
+	 */
 	private final boolean stream;
 
 	ChatClientObservationContext(ChatClientRequest chatClientRequest, List<? extends Advisor> advisors,
@@ -57,6 +71,8 @@ public class ChatClientObservationContext extends Observation.Context {
 		this.advisors = advisors;
 		this.stream = isStream;
 	}
+
+	// 构建者模式
 
 	public static Builder builder() {
 		return new Builder();
@@ -88,13 +104,25 @@ public class ChatClientObservationContext extends Observation.Context {
 
 	public static final class Builder {
 
+		/**
+		 * 对话客户端的输入
+		 */
 		private ChatClientRequest chatClientRequest;
 
+		/**
+		 * 顾问链
+		 */
 		private List<? extends Advisor> advisors = List.of();
 
+		/**
+		 * 对话客户端的输出格式
+		 */
 		@Nullable
 		private String format;
 
+		/**
+		 * 流式调用？
+		 */
 		private boolean isStream = false;
 
 		private Builder() {
@@ -122,6 +150,7 @@ public class ChatClientObservationContext extends Observation.Context {
 
 		public ChatClientObservationContext build() {
 			if (StringUtils.hasText(this.format)) {
+				// 对话客户端的输出格式
 				this.chatClientRequest.context().put(ChatClientAttributes.OUTPUT_FORMAT.getKey(), this.format);
 			}
 			return new ChatClientObservationContext(this.chatClientRequest, this.advisors, this.isStream);
