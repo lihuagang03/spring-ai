@@ -92,6 +92,8 @@ public class ChatClientAutoConfiguration {
 		return chatClientBuilderConfigurer.configure(builder);
 	}
 
+	// 基于链路追踪的观测配置
+
 	@Configuration(proxyBeanMethods = false)
 	@ConditionalOnClass(Tracer.class)
 	@ConditionalOnBean(Tracer.class)
@@ -105,6 +107,8 @@ public class ChatClientAutoConfiguration {
 		TracingAwareLoggingObservationHandler<ChatClientObservationContext> chatClientPromptContentObservationHandler(
 				Tracer tracer) {
 			logPromptContentWarning();
+			// 将对话客户端的提示词内容发送到日志的观测处理器
+			// 记录到链路追踪日志中
 			return new TracingAwareLoggingObservationHandler<>(new ChatClientPromptContentObservationHandler(), tracer);
 		}
 
@@ -120,6 +124,7 @@ public class ChatClientAutoConfiguration {
 				name = "log-prompt", havingValue = "true")
 		ChatClientPromptContentObservationHandler chatClientPromptContentObservationHandler() {
 			logPromptContentWarning();
+			// 将对话客户端的提示词内容发送到日志的观测处理器
 			return new ChatClientPromptContentObservationHandler();
 		}
 
