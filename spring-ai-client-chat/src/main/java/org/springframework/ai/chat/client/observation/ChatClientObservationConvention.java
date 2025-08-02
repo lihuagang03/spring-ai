@@ -21,6 +21,7 @@ import io.micrometer.observation.ObservationConvention;
 
 /**
  * Interface for an {@link ObservationConvention} for chat client workflows.
+ * 对话客户端工作流的观测约定。
  *
  * @author Christian Tzolov
  * @since 1.0.0
