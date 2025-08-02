@@ -34,6 +34,8 @@ import org.springframework.util.StringUtils;
 
 /**
  * Default conventions to populate observations for chat client workflows.
+ * <p></p>
+ * 对话客户端工作流的默认观测约定。
  *
  * @author Christian Tzolov
  * @author Thomas Vitale
@@ -66,6 +68,7 @@ public class DefaultChatClientObservationConvention implements ChatClientObserva
 
 	@Override
 	public KeyValues getLowCardinalityKeyValues(ChatClientObservationContext context) {
+		// 低基数键值对
 		return KeyValues.of(aiOperationType(context), aiProvider(context), springAiKind(), stream(context));
 	}
 
@@ -90,6 +93,7 @@ public class DefaultChatClientObservationConvention implements ChatClientObserva
 
 	@Override
 	public KeyValues getHighCardinalityKeyValues(ChatClientObservationContext context) {
+		// 高基数键值对
 		var keyValues = KeyValues.empty();
 		keyValues = advisors(keyValues, context);
 		keyValues = conversationId(keyValues, context);
@@ -111,6 +115,7 @@ public class DefaultChatClientObservationConvention implements ChatClientObserva
 			return keyValues;
 		}
 
+		// 来自上下文的聊天记忆对话ID
 		var conversationIdValue = context.getRequest().context().get(ChatMemory.CONVERSATION_ID);
 
 		if (!(conversationIdValue instanceof String conversationId) || !StringUtils.hasText(conversationId)) {
