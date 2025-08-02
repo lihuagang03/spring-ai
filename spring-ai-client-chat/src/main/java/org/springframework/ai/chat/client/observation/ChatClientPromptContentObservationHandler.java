@@ -29,6 +29,7 @@ import org.springframework.util.CollectionUtils;
 
 /**
  * Handler for emitting the chat client prompt content to logs.
+ * 将对话客户端的提示词内容发送到日志的观测处理器。
  *
  * @author Thomas Vitale
  * @author Jonatan Ivanov
