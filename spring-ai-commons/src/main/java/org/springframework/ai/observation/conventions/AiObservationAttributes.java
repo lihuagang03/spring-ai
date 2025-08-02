@@ -19,6 +19,8 @@ package org.springframework.ai.observation.conventions;
 /**
  * Collection of attribute keys used in AI observations (spans, metrics, events). Based on
  * the OpenTelemetry Semantic Conventions for AI Systems.
+ * <p></p>
+ * AI 观测中使用的属性键的集合(跨度、指标、事件)。
  *
  * @author Thomas Vitale
  * @since 1.0.0
