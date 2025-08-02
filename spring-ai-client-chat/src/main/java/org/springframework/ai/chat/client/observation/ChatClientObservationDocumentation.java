@@ -23,6 +23,8 @@ import io.micrometer.observation.docs.ObservationDocumentation;
 
 /**
  * Documented conventions for chat client observations.
+ * <p></p>
+ * 对话客户端的观测文档。
  *
  * @author Christian Tzolov
  * @since 1.0.0
