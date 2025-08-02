@@ -26,6 +26,9 @@ public enum ChatClientAttributes {
 
 	//@formatter:off
 
+	/**
+     * 对话客户端的输出格式
+     */
 	OUTPUT_FORMAT("spring.ai.chat.client.output.format");
 
 	//@formatter:on
