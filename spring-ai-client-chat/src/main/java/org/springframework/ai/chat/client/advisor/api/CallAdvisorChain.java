@@ -24,6 +24,8 @@ import org.springframework.ai.chat.client.ChatClientResponse;
 /**
  * A chain of {@link CallAdvisor} instances orchestrating the execution of a
  * {@link ChatClientRequest} on the next {@link CallAdvisor} in the chain.
+ * <p></p>
+ * 调用顾问链，一系列调用顾问实例，协调在顾问链中下一个调用顾问上执行对话客户端请求。
  *
  * @author Christian Tzolov
  * @author Dariusz Jedrzejczyk
@@ -32,11 +34,15 @@ import org.springframework.ai.chat.client.ChatClientResponse;
  */
 public interface CallAdvisorChain extends AdvisorChain {
 
+	// 下一个调用顾问
+
 	/**
 	 * Invokes the next {@link CallAdvisor} in the {@link CallAdvisorChain} with the given
 	 * request.
 	 */
 	ChatClientResponse nextCall(ChatClientRequest chatClientRequest);
+
+	// 调用顾问列表
 
 	/**
 	 * Returns the list of all the {@link CallAdvisor} instances included in this chain at
