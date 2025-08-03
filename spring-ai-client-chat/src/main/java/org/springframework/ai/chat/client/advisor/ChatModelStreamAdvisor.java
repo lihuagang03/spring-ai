@@ -31,12 +31,17 @@ import org.springframework.util.Assert;
 
 /**
  * A {@link StreamAdvisor} that uses a {@link ChatModel} to generate a streaming response.
+ * <p></p>
+ * 对话模型流式顾问，一个使用对话模型生成流式响应的流式顾问。
  *
  * @author Thomas Vitale
  * @since 1.0.0
  */
 public final class ChatModelStreamAdvisor implements StreamAdvisor {
 
+	/**
+	 * 对话模型
+	 */
 	private final ChatModel chatModel;
 
 	private ChatModelStreamAdvisor(ChatModel chatModel) {
