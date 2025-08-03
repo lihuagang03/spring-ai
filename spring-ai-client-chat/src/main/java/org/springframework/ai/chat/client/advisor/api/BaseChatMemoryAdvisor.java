@@ -23,12 +23,16 @@ import org.springframework.util.Assert;
 
 /**
  * Base interface for chat memory advisors.
+ * <p></p>
+ * 对话记忆顾问的基础接口。
  *
  * @author Mark Pollack
  * @author Thomas Vitale
  * @since 1.0
  */
 public interface BaseChatMemoryAdvisor extends BaseAdvisor {
+
+	// 对话ID
 
 	/**
 	 * Retrieve the conversation ID from the given context or return the default
