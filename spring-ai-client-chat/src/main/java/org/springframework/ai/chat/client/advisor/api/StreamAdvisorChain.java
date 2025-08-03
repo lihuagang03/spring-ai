@@ -26,6 +26,8 @@ import org.springframework.ai.chat.client.ChatClientResponse;
 /**
  * A chain of {@link StreamAdvisor} instances orchestrating the execution of a
  * {@link ChatClientRequest} on the next {@link StreamAdvisor} in the chain.
+ * <p></p>
+ * 流式顾问链，一系列流式顾问实例，协调在顾问链中下一个流式顾问上执行对话客户端请求。
  *
  * @author Christian Tzolov
  * @author Dariusz Jedrzejczyk
@@ -34,11 +36,15 @@ import org.springframework.ai.chat.client.ChatClientResponse;
  */
 public interface StreamAdvisorChain extends AdvisorChain {
 
+	// 下一个流式顾问
+
 	/**
 	 * Invokes the next {@link StreamAdvisor} in the {@link StreamAdvisorChain} with the
 	 * given request.
 	 */
 	Flux<ChatClientResponse> nextStream(ChatClientRequest chatClientRequest);
+
+	// 流式顾问列表
 
 	/**
 	 * Returns the list of all the {@link StreamAdvisor} instances included in this chain
