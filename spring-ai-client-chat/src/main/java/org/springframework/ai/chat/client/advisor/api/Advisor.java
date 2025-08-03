@@ -21,7 +21,7 @@ import org.springframework.core.Ordered;
 /**
  * Parent advisor interface for all advisors.
  * <p></p>
- * 顾问接口
+ * 顾问接口，所有顾问的父顾问接口。
  *
  * @author Christian Tzolov
  * @author Dariusz Jedrzejczyk
@@ -39,6 +39,8 @@ public interface Advisor extends Ordered {
 	 * priority.
 	 */
 	int DEFAULT_CHAT_MEMORY_PRECEDENCE_ORDER = Ordered.HIGHEST_PRECEDENCE + 1000;
+
+	// 顾问的名称
 
 	/**
 	 * Return the name of the advisor.
