@@ -21,6 +21,7 @@ import java.util.function.BiFunction;
 
 /**
  * Renders a template using a given strategy.
+ * 使用给定的策略渲染模板。
  *
  * @author Thomas Vitale
  * @since 1.0.0
