@@ -20,7 +20,9 @@ import org.springframework.ai.chat.client.ChatClientRequest;
 import org.springframework.ai.chat.client.ChatClientResponse;
 
 /**
- * Advisor for execution flows ultimately resulting in a call to an AI model
+ * Advisor for execution flows ultimately resulting in a call to an AI model.
+ * <p></p>
+ * 调用顾问，执行流程的顾问，最终导致对 AI 模型的调用。
  *
  * @author Christian Tzolov
  * @author Dariusz Jedrzejczyk
@@ -28,6 +30,8 @@ import org.springframework.ai.chat.client.ChatClientResponse;
  * @since 1.0.0
  */
 public interface CallAdvisor extends Advisor {
+
+	// 调用顾问
 
 	ChatClientResponse adviseCall(ChatClientRequest chatClientRequest, CallAdvisorChain callAdvisorChain);
 
