@@ -19,10 +19,12 @@ package org.springframework.ai.chat.client.advisor.api;
 /**
  * A base interface for advisor chains that can be used to chain multiple advisors
  * together, both for call and stream advisors.
+ * <p></p>
+ * 顾问链的基础接口，可以将多个顾问连接在一起，适用于调用顾问链和流式顾问链。
  *
  * @author Thomas Vitale
  * @since 1.0.0
  */
 public interface BaseAdvisorChain extends CallAdvisorChain, StreamAdvisorChain {
-
+	//
 }
