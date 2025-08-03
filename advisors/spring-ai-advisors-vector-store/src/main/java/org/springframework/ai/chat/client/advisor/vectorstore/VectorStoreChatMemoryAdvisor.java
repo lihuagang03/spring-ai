@@ -46,7 +46,7 @@ import org.springframework.util.Assert;
 /**
  * Memory is retrieved from a VectorStore added into the prompt's system text.
  * <p></p>
- * 从向量存储中检索对话记忆，并添加到提示词的系统指令文本。
+ * 向量存储对话记忆顾问，从向量存储中检索对话记忆，并添加到提示词的系统指令文本。
  *
  * This only works for text based exchanges with the models, not multi-modal exchanges.
  *
@@ -60,6 +60,9 @@ public final class VectorStoreChatMemoryAdvisor implements BaseChatMemoryAdvisor
 
 	public static final String TOP_K = "chat_memory_vector_store_top_k";
 
+	/**
+	 * 文档元数据的对话ID
+	 */
 	private static final String DOCUMENT_METADATA_CONVERSATION_ID = "conversationId";
 
 	private static final String DOCUMENT_METADATA_MESSAGE_TYPE = "messageType";
@@ -80,10 +83,19 @@ public final class VectorStoreChatMemoryAdvisor implements BaseChatMemoryAdvisor
 			---------------------
 			""");
 
+	/**
+	 * 系统提示词模板
+	 */
 	private final PromptTemplate systemPromptTemplate;
 
+	/**
+	 * 默认的top_k
+	 */
 	private final int defaultTopK;
 
+	/**
+	 * 默认的对话ID
+	 */
 	private final String defaultConversationId;
 
 	private final int order;
@@ -126,31 +138,42 @@ public final class VectorStoreChatMemoryAdvisor implements BaseChatMemoryAdvisor
 
 	@Override
 	public ChatClientRequest before(ChatClientRequest request, AdvisorChain advisorChain) {
+		// 对话ID
 		String conversationId = getConversationId(request.context(), this.defaultConversationId);
+		// 用户提示词的查询
 		String query = request.prompt().getUserMessage() != null ? request.prompt().getUserMessage().getText() : "";
+		// 对话记忆的top_k
 		int topK = getChatMemoryTopK(request.context());
+		// 过滤条件
 		String filter = DOCUMENT_METADATA_CONVERSATION_ID + "=='" + conversationId + "'";
+		// 搜索请求的输入
 		var searchRequest = org.springframework.ai.vectorstore.SearchRequest.builder()
 			.query(query)
 			.topK(topK)
 			.filterExpression(filter)
 			.build();
+		// 1. 检索相似文档列表，从向量存储中
 		java.util.List<org.springframework.ai.document.Document> documents = this.vectorStore
 			.similaritySearch(searchRequest);
 
+		// 2. 长期记忆
 		String longTermMemory = documents == null ? ""
 				: documents.stream()
 					.map(org.springframework.ai.document.Document::getText)
 					.collect(java.util.stream.Collectors.joining(System.lineSeparator()));
 
+		// 3. 增强的系统提示词文本
+		// 系统消息
 		org.springframework.ai.chat.messages.SystemMessage systemMessage = request.prompt().getSystemMessage();
 		String augmentedSystemText = this.systemPromptTemplate
 			.render(java.util.Map.of("instructions", systemMessage.getText(), "long_term_memory", longTermMemory));
 
+		// 4. 构建一个新请求，根据增强的系统提示词文本
 		ChatClientRequest processedChatClientRequest = request.mutate()
 			.prompt(request.prompt().augmentSystemMessage(augmentedSystemText))
 			.build();
 
+		// 将用户消息写入到向量存储中
 		org.springframework.ai.chat.messages.UserMessage userMessage = processedChatClientRequest.prompt()
 			.getUserMessage();
 		if (userMessage != null) {
