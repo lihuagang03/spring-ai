@@ -46,6 +46,8 @@ import org.springframework.util.CollectionUtils;
  * Default implementation for the {@link BaseAdvisorChain}. Used by the
  * {@link org.springframework.ai.chat.client.ChatClient} to delegate the call to the next
  * {@link CallAdvisor} or {@link StreamAdvisor} in the chain.
+ * <p></p>
+ * 顾问链的基础接口的默认实现。
  *
  * @author Christian Tzolov
  * @author Dariusz Jedrzejczyk
@@ -54,18 +56,39 @@ import org.springframework.util.CollectionUtils;
  */
 public class DefaultAroundAdvisorChain implements BaseAdvisorChain {
 
+	/**
+	 * 对话客户端顾问链的观测约定
+	 */
 	public static final AdvisorObservationConvention DEFAULT_OBSERVATION_CONVENTION = new DefaultAdvisorObservationConvention();
 
+	/**
+	 * 默认的策略渲染模板
+	 */
 	private static final TemplateRenderer DEFAULT_TEMPLATE_RENDERER = StTemplateRenderer.builder().build();
 
+	/**
+	 * 原始的调用顾问列表
+	 */
 	private final List<CallAdvisor> originalCallAdvisors;
 
+	/**
+	 * 原始的流式顾问列表
+	 */
 	private final List<StreamAdvisor> originalStreamAdvisors;
 
+	/**
+	 * 调用顾问链的双端队列
+	 */
 	private final Deque<CallAdvisor> callAdvisors;
 
+	/**
+	 * 流式顾问链的双端队列
+	 */
 	private final Deque<StreamAdvisor> streamAdvisors;
 
+	/**
+	 * 观测注册中心
+	 */
 	private final ObservationRegistry observationRegistry;
 
 	private final TemplateRenderer templateRenderer;
@@ -97,8 +120,10 @@ public class DefaultAroundAdvisorChain implements BaseAdvisorChain {
 			throw new IllegalStateException("No CallAdvisors available to execute");
 		}
 
+		// 第一个调用顾问
 		var advisor = this.callAdvisors.pop();
 
+		// 顾问的观测上下文
 		var observationContext = AdvisorObservationContext.builder()
 			.advisorName(advisor.getName())
 			.chatClientRequest(chatClientRequest)
@@ -107,6 +132,7 @@ public class DefaultAroundAdvisorChain implements BaseAdvisorChain {
 
 		return AdvisorObservationDocumentation.AI_ADVISOR
 			.observation(null, DEFAULT_OBSERVATION_CONVENTION, () -> observationContext, this.observationRegistry)
+			// 调用顾问
 			.observe(() -> advisor.adviseCall(chatClientRequest, this));
 	}
 
@@ -119,20 +145,24 @@ public class DefaultAroundAdvisorChain implements BaseAdvisorChain {
 				return Flux.error(new IllegalStateException("No StreamAdvisors available to execute"));
 			}
 
+			// 第一个流式顾问
 			var advisor = this.streamAdvisors.pop();
 
+			// 顾问的观测上下文
 			AdvisorObservationContext observationContext = AdvisorObservationContext.builder()
 				.advisorName(advisor.getName())
 				.chatClientRequest(chatClientRequest)
 				.order(advisor.getOrder())
 				.build();
 
+			// 观测操作行为
 			var observation = AdvisorObservationDocumentation.AI_ADVISOR.observation(null,
 					DEFAULT_OBSERVATION_CONVENTION, () -> observationContext, this.observationRegistry);
 
 			observation.parentObservation(contextView.getOrDefault(ObservationThreadLocalAccessor.KEY, null)).start();
 
 			// @formatter:off
+			// 流式调用顾问
 			return Flux.defer(() -> advisor.adviseStream(chatClientRequest, this)
 						.doOnError(observation::error)
 						.doFinally(s -> observation.stop())
