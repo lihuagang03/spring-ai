@@ -29,6 +29,8 @@ import org.springframework.util.Assert;
 /**
  * Base advisor that implements common aspects of the {@link CallAdvisor} and
  * {@link StreamAdvisor}, reducing the boilerplate code needed to implement an advisor.
+ * <p></p>
+ * 基础顾问，实现调用顾问和流式顾问的共同方面，从而减少实现顾问所需的样板代码。
  * <p>
  * It provides default implementations for the
  * {@link #adviseCall(ChatClientRequest, CallAdvisorChain)} and
@@ -41,17 +43,27 @@ import org.springframework.util.Assert;
  */
 public interface BaseAdvisor extends CallAdvisor, StreamAdvisor {
 
+	/**
+	 * 默认的调度器
+	 */
 	Scheduler DEFAULT_SCHEDULER = Schedulers.boundedElastic();
+
+	// 调用顾问，CallAdvisor
 
 	@Override
 	default ChatClientResponse adviseCall(ChatClientRequest chatClientRequest, CallAdvisorChain callAdvisorChain) {
 		Assert.notNull(chatClientRequest, "chatClientRequest cannot be null");
 		Assert.notNull(callAdvisorChain, "callAdvisorChain cannot be null");
 
+		// 在调用其余顾问链之前要执行的逻辑
 		ChatClientRequest processedChatClientRequest = before(chatClientRequest, callAdvisorChain);
+		// 下一个调用顾问
 		ChatClientResponse chatClientResponse = callAdvisorChain.nextCall(processedChatClientRequest);
+		// 在调用其余顾问链之后要执行的逻辑
 		return after(chatClientResponse, callAdvisorChain);
 	}
+
+	// 流式调用顾问，StreamAdvisor
 
 	@Override
 	default Flux<ChatClientResponse> adviseStream(ChatClientRequest chatClientRequest,
@@ -62,29 +74,41 @@ public interface BaseAdvisor extends CallAdvisor, StreamAdvisor {
 
 		Flux<ChatClientResponse> chatClientResponseFlux = Mono.just(chatClientRequest)
 			.publishOn(getScheduler())
+			// 在调用其余顾问链之前要执行的逻辑
 			.map(request -> this.before(request, streamAdvisorChain))
+			// 下一个流式顾问
 			.flatMapMany(streamAdvisorChain::nextStream);
 
 		return chatClientResponseFlux.map(response -> {
 			if (AdvisorUtils.onFinishReason().test(response)) {
+				// 在调用其余顾问链之后要执行的逻辑
 				response = after(response, streamAdvisorChain);
 			}
 			return response;
 		}).onErrorResume(error -> Flux.error(new IllegalStateException("Stream processing failed", error)));
 	}
 
+	// 顾问的名称
+
 	@Override
 	default String getName() {
+		// 类的简单名称
 		return this.getClass().getSimpleName();
 	}
 
+	// 顾问环绕切点，AOP
+
 	/**
 	 * Logic to be executed before the rest of the advisor chain is called.
+	 * <p></p>
+	 * 在调用其余顾问链之前要执行的逻辑。
 	 */
 	ChatClientRequest before(ChatClientRequest chatClientRequest, AdvisorChain advisorChain);
 
 	/**
 	 * Logic to be executed after the rest of the advisor chain is called.
+	 * <p></p>
+	 * 在调用其余顾问链之后要执行的逻辑。
 	 */
 	ChatClientResponse after(ChatClientResponse chatClientResponse, AdvisorChain advisorChain);
 
