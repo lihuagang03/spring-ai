@@ -39,7 +39,7 @@ import org.springframework.util.Assert;
 /**
  * Memory is retrieved added as a collection of messages to the prompt
  * <p></p>
- * 检索内存并将消息集合添加到提示词中。
+ * 检索对话记忆并将消息集合添加到提示词中。
  *
  * @author Christian Tzolov
  * @author Mark Pollack
@@ -48,10 +48,13 @@ import org.springframework.util.Assert;
  */
 public final class MessageChatMemoryAdvisor implements BaseChatMemoryAdvisor {
 
+	/**
+	 * 对话记忆
+	 */
 	private final ChatMemory chatMemory;
 
 	/**
-	 * 唯一的对话ID
+	 * 默认的对话ID
 	 */
 	private final String defaultConversationId;
 
@@ -82,21 +85,26 @@ public final class MessageChatMemoryAdvisor implements BaseChatMemoryAdvisor {
 
 	@Override
 	public ChatClientRequest before(ChatClientRequest chatClientRequest, AdvisorChain advisorChain) {
+		// 对话ID
 		String conversationId = getConversationId(chatClientRequest.context(), this.defaultConversationId);
 
 		// 1. Retrieve the chat memory for the current conversation.
+		// 1. 检索当前对话的聊天记录
 		List<Message> memoryMessages = this.chatMemory.get(conversationId);
 
 		// 2. Advise the request messages list.
+		// 2. 建议请求消息列表
 		List<Message> processedMessages = new ArrayList<>(memoryMessages);
 		processedMessages.addAll(chatClientRequest.prompt().getInstructions());
 
 		// 3. Create a new request with the advised messages.
+		// 3. 创建一个带有建议消息的新请求
 		ChatClientRequest processedChatClientRequest = chatClientRequest.mutate()
 			.prompt(chatClientRequest.prompt().mutate().messages(processedMessages).build())
 			.build();
 
 		// 4. Add the new user message to the conversation memory.
+		// 4. 将新用户消息添加到对话记忆中
 		UserMessage userMessage = processedChatClientRequest.prompt().getUserMessage();
 		this.chatMemory.add(conversationId, userMessage);
 
