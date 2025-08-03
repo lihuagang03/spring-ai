@@ -39,7 +39,7 @@ import org.springframework.util.StringUtils;
  * The Prompt class represents a prompt used in AI model requests. A prompt consists of
  * one or more messages and additional chat options.
  * <p></p>
- * 提示词
+ * 提示词，消息列表的模型请求。
  *
  * @author Mark Pollack
  * @author luocongqiu
@@ -59,6 +59,7 @@ public class Prompt implements ModelRequest<List<Message>> {
 	private ChatOptions chatOptions;
 
 	public Prompt(String contents) {
+		// 用户消息
 		this(new UserMessage(contents));
 	}
 
@@ -75,6 +76,7 @@ public class Prompt implements ModelRequest<List<Message>> {
 	}
 
 	public Prompt(String contents, @Nullable ChatOptions chatOptions) {
+		// 用户消息
 		this(new UserMessage(contents), chatOptions);
 	}
 
@@ -91,6 +93,7 @@ public class Prompt implements ModelRequest<List<Message>> {
 
 	public String getContents() {
 		StringBuilder sb = new StringBuilder();
+		// 指令消息文本
 		for (Message message : getInstructions()) {
 			sb.append(message.getText());
 		}
@@ -111,11 +114,14 @@ public class Prompt implements ModelRequest<List<Message>> {
 	/**
 	 * Get the first system message in the prompt. If no system message is found, an empty
 	 * SystemMessage is returned.
+	 * <p></p>
+	 * 获取提示词中的第一条系统消息。
 	 */
 	public SystemMessage getSystemMessage() {
 		for (int i = 0; i <= this.messages.size() - 1; i++) {
 			Message message = this.messages.get(i);
 			if (message instanceof SystemMessage systemMessage) {
+				// 系统消息
 				return systemMessage;
 			}
 		}
@@ -125,11 +131,14 @@ public class Prompt implements ModelRequest<List<Message>> {
 	/**
 	 * Get the last user message in the prompt. If no user message is found, an empty
 	 * UserMessage is returned.
+	 * <p></p>
+	 * 获取提示词中的最后一条用户消息。
 	 */
 	public UserMessage getUserMessage() {
 		for (int i = this.messages.size() - 1; i >= 0; i--) {
 			Message message = this.messages.get(i);
 			if (message instanceof UserMessage userMessage) {
+				// 用户消息
 				return userMessage;
 			}
 		}
@@ -138,6 +147,8 @@ public class Prompt implements ModelRequest<List<Message>> {
 
 	/**
 	 * Get all user messages in the prompt.
+	 * <p></p>
+	 * 获取提示词中的所有用户消息。
 	 * @return a list of all user messages in the prompt
 	 */
 	public List<UserMessage> getUserMessages() {
@@ -203,6 +214,8 @@ public class Prompt implements ModelRequest<List<Message>> {
 	/**
 	 * Augments the first system message in the prompt with the provided function. If no
 	 * system message is found, a new one is created with the provided text.
+	 * <p></p>
+	 * 用提供的功能增强提示词中的第一条系统消息。
 	 * @return a new {@link Prompt} instance with the augmented system message.
 	 */
 	public Prompt augmentSystemMessage(Function<SystemMessage, SystemMessage> systemMessageAugmenter) {
@@ -227,6 +240,8 @@ public class Prompt implements ModelRequest<List<Message>> {
 	/**
 	 * Augments the last system message in the prompt with the provided text. If no system
 	 * message is found, a new one is created with the provided text.
+	 * <p></p>
+	 * 用提供的文本增强提示词中的最后一条系统消息。
 	 * @return a new {@link Prompt} instance with the augmented system message.
 	 */
 	public Prompt augmentSystemMessage(String newSystemText) {
@@ -236,6 +251,8 @@ public class Prompt implements ModelRequest<List<Message>> {
 	/**
 	 * Augments the last user message in the prompt with the provided function. If no user
 	 * message is found, a new one is created with the provided text.
+	 * <p></p>
+	 * 用提供的功能增强提示词中的最后一条用户消息。
 	 * @return a new {@link Prompt} instance with the augmented user message.
 	 */
 	public Prompt augmentUserMessage(Function<UserMessage, UserMessage> userMessageAugmenter) {
@@ -257,6 +274,8 @@ public class Prompt implements ModelRequest<List<Message>> {
 	/**
 	 * Augments the last user message in the prompt with the provided text. If no user
 	 * message is found, a new one is created with the provided text.
+	 * <p></p>
+	 * 用提供的文本增强提示词中的最后一条用户消息。
 	 * @return a new {@link Prompt} instance with the augmented user message.
 	 */
 	public Prompt augmentUserMessage(String newUserText) {
