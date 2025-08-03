@@ -36,14 +36,20 @@ import org.springframework.lang.Nullable;
 /**
  * A simple logger advisor that logs the request and response messages.
  * <p></p>
- * 日志记录顾问，一个用于记录 ChatClient 的请求入参和响应出参的消息数据，这对于调试和监控您的AI交互非常有用。
+ * 日志记录顾问，一个用于记录对话客户端的请求入参和响应输出的消息数据，这对于调试和监控您的AI交互非常有用。
  *
  * @author Christian Tzolov
  */
 public class SimpleLoggerAdvisor implements CallAdvisor, StreamAdvisor {
 
+	/**
+	 * 将对话客户端请求转化为字符串
+	 */
 	public static final Function<ChatClientRequest, String> DEFAULT_REQUEST_TO_STRING = ChatClientRequest::toString;
 
+	/**
+	 * 将对话响应转化为JSON字符串
+	 */
 	public static final Function<ChatResponse, String> DEFAULT_RESPONSE_TO_STRING = ModelOptionsUtils::toJsonStringPrettyPrinter;
 
 	private static final Logger logger = LoggerFactory.getLogger(SimpleLoggerAdvisor.class);
@@ -71,10 +77,13 @@ public class SimpleLoggerAdvisor implements CallAdvisor, StreamAdvisor {
 
 	@Override
 	public ChatClientResponse adviseCall(ChatClientRequest chatClientRequest, CallAdvisorChain callAdvisorChain) {
+		// 记录请求输入日志
 		logRequest(chatClientRequest);
 
+		// 下一个调用顾问
 		ChatClientResponse chatClientResponse = callAdvisorChain.nextCall(chatClientRequest);
 
+		// 记录响应输出日志
 		logResponse(chatClientResponse);
 
 		return chatClientResponse;
@@ -91,10 +100,12 @@ public class SimpleLoggerAdvisor implements CallAdvisor, StreamAdvisor {
 	}
 
 	private void logRequest(ChatClientRequest request) {
+		// 记录请求输入日志
 		logger.debug("request: {}", this.requestToString.apply(request));
 	}
 
 	private void logResponse(ChatClientResponse chatClientResponse) {
+		// 记录响应输出日志
 		logger.debug("response: {}", this.responseToString.apply(chatClientResponse.chatResponse()));
 	}
 
