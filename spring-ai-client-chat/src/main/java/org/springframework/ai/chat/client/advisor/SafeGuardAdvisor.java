@@ -36,6 +36,8 @@ import org.springframework.util.CollectionUtils;
 /**
  * An advisor that blocks the call to the model provider if the user input contains any of
  * the sensitive words.
+ * <p></p>
+ * 安全守护顾问，如果用户输入包含任何敏感词，则这个顾问会阻止对模型提供者的调用。
  *
  * @author Christian Tzolov
  * @author Ilayaperumal Gopinathan
@@ -48,8 +50,14 @@ public class SafeGuardAdvisor implements CallAdvisor, StreamAdvisor {
 
 	private static final int DEFAULT_ORDER = 0;
 
+	/**
+	 * 失败的响应
+	 */
 	private final String failureResponse;
 
+	/**
+	 * 敏感词的列表
+	 */
 	private final List<String> sensitiveWords;
 
 	private final int order;
