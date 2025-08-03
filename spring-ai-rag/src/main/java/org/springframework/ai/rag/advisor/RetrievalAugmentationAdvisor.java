@@ -113,6 +113,7 @@ public final class RetrievalAugmentationAdvisor implements BaseAdvisor {
 		Map<String, Object> context = new HashMap<>(chatClientRequest.context());
 
 		// 0. Create a query from the user text, parameters, and conversation history.
+		// 0. 从用户提示词文本、输入参数和对话历史中创建查询
 		Query originalQuery = Query.builder()
 			.text(chatClientRequest.prompt().getUserMessage().getText())
 			.history(chatClientRequest.prompt().getInstructions())
@@ -120,16 +121,19 @@ public final class RetrievalAugmentationAdvisor implements BaseAdvisor {
 			.build();
 
 		// 1. Transform original user query based on a chain of query transformers.
+		// 1. 转换原始的用户查询，根据查询转换器链
 		Query transformedQuery = originalQuery;
 		for (var queryTransformer : this.queryTransformers) {
 			transformedQuery = queryTransformer.apply(transformedQuery);
 		}
 
 		// 2. Expand query into one or multiple queries.
+		// 2. 将查询扩展为一个或多个查询
 		List<Query> expandedQueries = this.queryExpander != null ? this.queryExpander.expand(transformedQuery)
 				: List.of(transformedQuery);
 
 		// 3. Get similar documents for each query.
+		// 3. 获取每个查询的相似文档列表
 		Map<Query, List<List<Document>>> documentsForQuery = expandedQueries.stream()
 			.map(query -> CompletableFuture.supplyAsync(() -> getDocumentsForQuery(query), this.taskExecutor))
 			.toList()
@@ -137,20 +141,23 @@ public final class RetrievalAugmentationAdvisor implements BaseAdvisor {
 			.map(CompletableFuture::join)
 			.collect(Collectors.toMap(Map.Entry::getKey, entry -> List.of(entry.getValue())));
 
-		// 4. Combine documents retrieved based on multiple queries and from multiple data
-		// sources.
+		// 4. Combine documents retrieved based on multiple queries and from multiple data sources.
+		// 4. 整合检索到的文档列表，根据多个查询和多个数据源
 		List<Document> documents = this.documentJoiner.join(documentsForQuery);
 
 		// 5. Post-process the documents.
+		// 5. 对文档进行后置处理
 		for (var documentPostProcessor : this.documentPostProcessors) {
 			documents = documentPostProcessor.process(originalQuery, documents);
 		}
 		context.put(DOCUMENT_CONTEXT, documents);
 
 		// 5. Augment user query with the document contextual data.
+		// 5. 增强用户查询，使用文档的上下文数据
 		Query augmentedQuery = this.queryAugmenter.augment(originalQuery, documents);
 
 		// 6. Update ChatClientRequest with augmented prompt.
+		// 6. 更新对话客户端请求的输入，添加增强的提示词
 		return chatClientRequest.mutate()
 			.prompt(chatClientRequest.prompt().augmentUserMessage(augmentedQuery.text()))
 			.context(context)
