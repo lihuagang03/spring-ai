@@ -54,6 +54,9 @@ import org.springframework.util.StringUtils;
  */
 public class QuestionAnswerAdvisor implements BaseAdvisor {
 
+	/**
+	 * 检索的文档列表
+	 */
 	public static final String RETRIEVED_DOCUMENTS = "qa_retrieved_documents";
 
 	/**
@@ -90,8 +93,14 @@ public class QuestionAnswerAdvisor implements BaseAdvisor {
 	 */
 	private final PromptTemplate promptTemplate;
 
+	/**
+	 * 搜索请求的输入
+	 */
 	private final SearchRequest searchRequest;
 
+	/**
+	 * 调度器
+	 */
 	private final Scheduler scheduler;
 
 	private final int order;
@@ -125,6 +134,7 @@ public class QuestionAnswerAdvisor implements BaseAdvisor {
 	@Override
 	public ChatClientRequest before(ChatClientRequest chatClientRequest, AdvisorChain advisorChain) {
 		// 1. Search for similar documents in the vector store.
+		// 1. 搜索相似文档列表，在向量存储中
 		var searchRequestToUse = SearchRequest.from(this.searchRequest)
 			.query(chatClientRequest.prompt().getUserMessage().getText())
 			.filterExpression(doGetFilterExpression(chatClientRequest.context()))
@@ -133,18 +143,22 @@ public class QuestionAnswerAdvisor implements BaseAdvisor {
 		List<Document> documents = this.vectorStore.similaritySearch(searchRequestToUse);
 
 		// 2. Create the context from the documents.
+		// 2. 根据文档列表创建上下文
 		Map<String, Object> context = new HashMap<>(chatClientRequest.context());
 		context.put(RETRIEVED_DOCUMENTS, documents);
 
+		// 问答的文档上下文
 		String documentContext = documents == null ? ""
 				: documents.stream().map(Document::getText).collect(Collectors.joining(System.lineSeparator()));
 
 		// 3. Augment the user prompt with the document context.
+		// 3. 增强用户提示词，使用文档上下文
 		UserMessage userMessage = chatClientRequest.prompt().getUserMessage();
 		String augmentedUserText = this.promptTemplate
 			.render(Map.of("query", userMessage.getText(), "question_answer_context", documentContext));
 
 		// 4. Update ChatClientRequest with augmented prompt.
+		// 4. 更新对话客户端请求的输入，添加增强的提示词
 		return chatClientRequest.mutate()
 			.prompt(chatClientRequest.prompt().augmentUserMessage(augmentedUserText))
 			.context(context)
@@ -160,6 +174,7 @@ public class QuestionAnswerAdvisor implements BaseAdvisor {
 		else {
 			chatResponseBuilder = ChatResponse.builder().from(chatClientResponse.chatResponse());
 		}
+		// 检索的文档列表
 		chatResponseBuilder.metadata(RETRIEVED_DOCUMENTS, chatClientResponse.context().get(RETRIEVED_DOCUMENTS));
 		return ChatClientResponse.builder()
 			.chatResponse(chatResponseBuilder.build())
