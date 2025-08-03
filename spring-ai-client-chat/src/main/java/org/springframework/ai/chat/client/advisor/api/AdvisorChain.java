@@ -21,6 +21,8 @@ import io.micrometer.observation.ObservationRegistry;
 /**
  * Defines the context for executing a chain of advisors as part of processing a chat
  * request.
+ * <p></p>
+ * 顾问链，定义在处理对话请求时执行顾问链的上下文。
  *
  * @author Thomas Vitale
  * @since 1.0.0
