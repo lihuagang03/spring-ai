@@ -39,7 +39,7 @@ import org.springframework.util.Assert;
 /**
  * Memory is retrieved added as a collection of messages to the prompt
  * <p></p>
- * 检索对话记忆并将消息集合添加到提示词中。
+ * 消息对话记忆顾问，检索对话记忆并将消息集合添加到提示词中。
  *
  * @author Christian Tzolov
  * @author Mark Pollack
