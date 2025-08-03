@@ -46,7 +46,7 @@ import org.springframework.util.Assert;
 /**
  * Memory is retrieved added into the prompt's system text.
  * <p></p>
- * 检索内存并将其添加到提示词的系统文本中。
+ * 检索对话记忆并将其添加到提示词的系统文本中。
  *
  * @author Christian Tzolov
  * @author Miloš Havránek
@@ -73,14 +73,23 @@ public final class PromptChatMemoryAdvisor implements BaseChatMemoryAdvisor {
 
 			""");
 
+	/**
+	 * 系统提示词模板
+	 */
 	private final PromptTemplate systemPromptTemplate;
 
+	/**
+	 * 默认的对话ID
+	 */
 	private final String defaultConversationId;
 
 	private final int order;
 
 	private final Scheduler scheduler;
 
+	/**
+	 * 对话记忆
+	 */
 	private final ChatMemory chatMemory;
 
 	private PromptChatMemoryAdvisor(ChatMemory chatMemory, String defaultConversationId, int order, Scheduler scheduler,
@@ -112,31 +121,38 @@ public final class PromptChatMemoryAdvisor implements BaseChatMemoryAdvisor {
 
 	@Override
 	public ChatClientRequest before(ChatClientRequest chatClientRequest, AdvisorChain advisorChain) {
+		// 对话ID
 		String conversationId = getConversationId(chatClientRequest.context(), this.defaultConversationId);
 		// 1. Retrieve the chat memory for the current conversation.
+		// 1. 检索当前对话的聊天记录
 		List<Message> memoryMessages = this.chatMemory.get(conversationId);
 		logger.debug("[PromptChatMemoryAdvisor.before] Memory before processing for conversationId={}: {}",
 				conversationId, memoryMessages);
 
 		// 2. Process memory messages as a string.
+		// 2. 将聊天记录消息作为字符串处理
 		String memory = memoryMessages.stream()
 			.filter(m -> m.getMessageType() == MessageType.USER || m.getMessageType() == MessageType.ASSISTANT)
 			.map(m -> m.getMessageType() + ":" + m.getText())
 			.collect(Collectors.joining(System.lineSeparator()));
 
 		// 3. Augment the system message.
+		// 3. 增强系统消息
 		SystemMessage systemMessage = chatClientRequest.prompt().getSystemMessage();
 		String augmentedSystemText = this.systemPromptTemplate
 			.render(Map.of("instructions", systemMessage.getText(), "memory", memory));
 
 		// 4. Create a new request with the augmented system message.
+		// 4. 创建一个带有增强系统消息的新请求
 		ChatClientRequest processedChatClientRequest = chatClientRequest.mutate()
 			.prompt(chatClientRequest.prompt().augmentSystemMessage(augmentedSystemText))
 			.build();
 
 		// 5. Add all user messages from the current prompt to memory (after system
 		// message is generated)
+		// 5. 将当前提示词中的所有用户消息添加到对话记忆中(在生成系统消息之后)
 		// 4. Add the new user message to the conversation memory.
+		// 4. 将新用户消息添加到对话记忆中
 		UserMessage userMessage = processedChatClientRequest.prompt().getUserMessage();
 		this.chatMemory.add(conversationId, userMessage);
 
