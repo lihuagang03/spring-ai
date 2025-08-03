@@ -46,7 +46,7 @@ import org.springframework.util.Assert;
 /**
  * Memory is retrieved added into the prompt's system text.
  * <p></p>
- * 检索对话记忆并将其添加到提示词的系统文本中。
+ * 提示词对话记忆顾问，检索对话记忆并将其添加到提示词的系统文本中。
  *
  * @author Christian Tzolov
  * @author Miloš Havránek
