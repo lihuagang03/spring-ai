@@ -42,6 +42,8 @@ public interface ChatMemory {
 
 	/**
 	 * The key to retrieve the chat memory conversation id from the context.
+	 * <p></p>
+	 * 来自上下文的聊天记忆对话ID。
 	 */
 	String CONVERSATION_ID = "chat_memory_conversation_id";
 
