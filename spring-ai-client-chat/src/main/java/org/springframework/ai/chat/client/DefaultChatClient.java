@@ -81,10 +81,19 @@ import org.springframework.util.StringUtils;
  */
 public class DefaultChatClient implements ChatClient {
 
+	/**
+	 * 默认的对话客户端工作流的观测约定
+	 */
 	private static final ChatClientObservationConvention DEFAULT_CHAT_CLIENT_OBSERVATION_CONVENTION = new DefaultChatClientObservationConvention();
 
+	/**
+	 * 默认的模板渲染器
+	 */
 	private static final TemplateRenderer DEFAULT_TEMPLATE_RENDERER = StTemplateRenderer.builder().build();
 
+	/**
+	 * 默认的对话客户端的请求规范
+	 */
 	private final DefaultChatClientRequestSpec defaultChatClientRequest;
 
 	public DefaultChatClient(DefaultChatClientRequestSpec defaultChatClientRequest) {
@@ -100,6 +109,7 @@ public class DefaultChatClient implements ChatClient {
 	@Override
 	public ChatClientRequestSpec prompt(String content) {
 		Assert.hasText(content, "content cannot be null or empty");
+		// 用户消息的提示词
 		return prompt(new Prompt(content));
 	}
 
@@ -107,14 +117,17 @@ public class DefaultChatClient implements ChatClient {
 	public ChatClientRequestSpec prompt(Prompt prompt) {
 		Assert.notNull(prompt, "prompt cannot be null");
 
+		// 默认的对话客户端的请求规范
 		DefaultChatClientRequestSpec spec = new DefaultChatClientRequestSpec(this.defaultChatClientRequest);
 
 		// Options
+		// 交互参数
 		if (prompt.getOptions() != null) {
 			spec.options(prompt.getOptions());
 		}
 
 		// Messages
+		// 指示消息
 		if (prompt.getInstructions() != null) {
 			spec.messages(prompt.getInstructions());
 		}
@@ -131,12 +144,21 @@ public class DefaultChatClient implements ChatClient {
 		return this.defaultChatClientRequest.mutate();
 	}
 
+	/**
+	 * 默认的提示用户的规范
+	 */
 	public static class DefaultPromptUserSpec implements PromptUserSpec {
 
+		/**
+		 * 交互参数
+		 */
 		private final Map<String, Object> params = new HashMap<>();
 
 		private final List<Media> media = new ArrayList<>();
 
+		/**
+		 * 提示词的文本内容
+		 */
 		@Nullable
 		private String text;
 
@@ -228,10 +250,19 @@ public class DefaultChatClient implements ChatClient {
 
 	}
 
+	/**
+	 * 默认的提示系统的规范
+	 */
 	public static class DefaultPromptSystemSpec implements PromptSystemSpec {
 
+		/**
+		 * 交互参数
+		 */
 		private final Map<String, Object> params = new HashMap<>();
 
+		/**
+		 * 提示词的文本内容
+		 */
 		@Nullable
 		private String text;
 
@@ -290,10 +321,26 @@ public class DefaultChatClient implements ChatClient {
 
 	}
 
+	/**
+	 * 默认的顾问的规范
+	 * <p></p>
+	 * 使用上下文数据附加或扩充 Prompt
+	 * 用于扩充 Prompt 的上下文数据
+	 * <pre>
+	 * 您自己的数据
+	 * 对话历史记录
+	 * </pre>
+	 */
 	public static class DefaultAdvisorSpec implements AdvisorSpec {
 
+		/**
+		 * 顾问链
+		 */
 		private final List<Advisor> advisors = new ArrayList<>();
 
+		/**
+		 * 交互参数
+		 */
 		private final Map<String, Object> params = new HashMap<>();
 
 		@Override
@@ -339,14 +386,29 @@ public class DefaultChatClient implements ChatClient {
 
 	}
 
+	/**
+	 * 默认的同步响应的规范
+	 */
 	public static class DefaultCallResponseSpec implements CallResponseSpec {
 
+		/**
+		 * 对话客户端的输入
+		 */
 		private final ChatClientRequest request;
 
+		/**
+		 * 顾问链
+		 */
 		private final BaseAdvisorChain advisorChain;
 
+		/**
+		 * 观测注册中心
+		 */
 		private final ObservationRegistry observationRegistry;
 
+		/**
+		 * 对话客户端工作流的观测约定
+		 */
 		private final ChatClientObservationConvention observationConvention;
 
 		public DefaultCallResponseSpec(ChatClientRequest chatClientRequest, BaseAdvisorChain advisorChain,
@@ -455,6 +517,7 @@ public class DefaultChatClient implements ChatClient {
 				chatClientRequest.context().put(ChatClientAttributes.OUTPUT_FORMAT.getKey(), outputFormat);
 			}
 
+			// 对话客户端工作流元数据的上下文
 			ChatClientObservationContext observationContext = ChatClientObservationContext.builder()
 				.request(chatClientRequest)
 				.advisors(this.advisorChain.getCallAdvisors())
@@ -462,12 +525,14 @@ public class DefaultChatClient implements ChatClient {
 				.format(outputFormat)
 				.build();
 
+			// 对话客户端的观测
 			var observation = ChatClientObservationDocumentation.AI_CHAT_CLIENT.observation(this.observationConvention,
 					DEFAULT_CHAT_CLIENT_OBSERVATION_CONVENTION, () -> observationContext, this.observationRegistry);
 
 			// CHECKSTYLE:OFF
 			var chatClientResponse = observation.observe(() -> {
 				// Apply the advisor chain that terminates with the ChatModelCallAdvisor.
+				// 应用以对话模型调用顾问结束的顾问链
 				return this.advisorChain.nextCall(chatClientRequest);
 			});
 			// CHECKSTYLE:ON
@@ -485,14 +550,29 @@ public class DefaultChatClient implements ChatClient {
 
 	}
 
+	/**
+	 * 默认的流式响应的规范
+	 */
 	public static class DefaultStreamResponseSpec implements StreamResponseSpec {
 
+		/**
+		 * 对话客户端的输入
+		 */
 		private final ChatClientRequest request;
 
+		/**
+		 * 顾问链
+		 */
 		private final BaseAdvisorChain advisorChain;
 
+		/**
+		 * 观测注册中心
+		 */
 		private final ObservationRegistry observationRegistry;
 
+		/**
+		 * 对话客户端工作流的观测约定
+		 */
 		private final ChatClientObservationConvention observationConvention;
 
 		public DefaultStreamResponseSpec(ChatClientRequest chatClientRequest, BaseAdvisorChain advisorChain,
@@ -511,12 +591,14 @@ public class DefaultChatClient implements ChatClient {
 		private Flux<ChatClientResponse> doGetObservableFluxChatResponse(ChatClientRequest chatClientRequest) {
 			return Flux.deferContextual(contextView -> {
 
+				// 对话客户端工作流元数据的上下文
 				ChatClientObservationContext observationContext = ChatClientObservationContext.builder()
 					.request(chatClientRequest)
 					.advisors(this.advisorChain.getStreamAdvisors())
 					.stream(true)
 					.build();
 
+				// 对话客户端的观测
 				Observation observation = ChatClientObservationDocumentation.AI_CHAT_CLIENT.observation(
 						this.observationConvention, DEFAULT_CHAT_CLIENT_OBSERVATION_CONVENTION,
 						() -> observationContext, this.observationRegistry);
@@ -526,6 +608,7 @@ public class DefaultChatClient implements ChatClient {
 
 				// @formatter:off
 				// Apply the advisor chain that terminates with the ChatModelStreamAdvisor.
+				// 应用以对话模型流式顾问结束的顾问链
 				return this.advisorChain.nextStream(chatClientRequest)
 						.doOnError(observation::error)
 						.doFinally(s -> observation.stop())
@@ -567,38 +650,83 @@ public class DefaultChatClient implements ChatClient {
 	 */
 	public static class DefaultChatClientRequestSpec implements ChatClientRequestSpec {
 
+		/**
+		 * 观测注册中心
+		 */
 		private final ObservationRegistry observationRegistry;
 
+		/**
+		 * 对话客户端工作流的观测约定
+		 */
 		private final ChatClientObservationConvention observationConvention;
 
+		/**
+		 * 对话模型
+		 */
 		private final ChatModel chatModel;
 
 		private final List<Media> media = new ArrayList<>();
 
+		/**
+		 * 工具名称列表
+		 */
 		private final List<String> toolNames = new ArrayList<>();
 
+		/**
+		 * 工具回调列表
+		 */
 		private final List<ToolCallback> toolCallbacks = new ArrayList<>();
 
+		/**
+		 * 消息列表
+		 */
 		private final List<Message> messages = new ArrayList<>();
 
+		/**
+		 * 用户参数
+		 */
 		private final Map<String, Object> userParams = new HashMap<>();
 
+		/**
+		 * 系统参数
+		 */
 		private final Map<String, Object> systemParams = new HashMap<>();
 
+		/**
+		 * 顾问链
+		 */
 		private final List<Advisor> advisors = new ArrayList<>();
 
+		/**
+		 * 顾问参数
+		 */
 		private final Map<String, Object> advisorParams = new HashMap<>();
 
+		/**
+		 * 工具上下文
+		 */
 		private final Map<String, Object> toolContext = new HashMap<>();
 
+		/**
+		 * 提示词的模板渲染器
+		 */
 		private TemplateRenderer templateRenderer;
 
+		/**
+		 * 用户消息文本
+		 */
 		@Nullable
 		private String userText;
 
+		/**
+		 * 系统消息文本
+		 */
 		@Nullable
 		private String systemText;
 
+		/**
+		 * 对话模型的交互参数
+		 */
 		@Nullable
 		private ChatOptions chatOptions;
 
