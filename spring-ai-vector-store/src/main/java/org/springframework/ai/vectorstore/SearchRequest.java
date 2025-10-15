@@ -26,6 +26,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 /**
+ * 相似性搜索请求
  * Similarity search request. Use the {@link SearchRequest#builder()} to create the
  * instance of a {@link SearchRequest}.
  *

@@ -21,6 +21,7 @@ import java.util.List;
 import org.springframework.ai.document.Document;
 
 /**
+ * 向量存储检索器
  * A functional interface that provides read-only access to vector store retrieval
  * operations. This interface extracts only the document retrieval functionality from
  * {@link VectorStore}, ensuring that mutation operations (add, delete) are not exposed.
@@ -36,6 +37,7 @@ import org.springframework.ai.document.Document;
 public interface VectorStoreRetriever {
 
 	/**
+	 * 通过查询嵌入相似性和元数据过滤来检索文档，以准确获取符合请求条件的最近邻结果数量。
 	 * Retrieves documents by query embedding similarity and metadata filters to retrieve
 	 * exactly the number of nearest-neighbor results that match the request criteria.
 	 * @param request Search request for set search parameters, such as the query text,
