@@ -15,6 +15,7 @@
  */
 
 /**
+ * 提供用于在 Spring AI 中处理向量数据库的接口和实现。
  * Provides interfaces and implementations for working with vector databases in Spring AI.
  * <p>
  * Vector databases store embeddings (numerical vector representations) of data along with
