@@ -49,14 +49,24 @@ public class SearchRequest {
 	public static final int DEFAULT_TOP_K = 4;
 
 	/**
+	 * 查询文本
 	 * Default value is empty string.
 	 */
 	private String query = "";
 
+	/**
+	 * 返回结果数量
+	 */
 	private int topK = DEFAULT_TOP_K;
 
+	/**
+	 * 相似性阈值
+	 */
 	private double similarityThreshold = SIMILARITY_THRESHOLD_ACCEPT_ALL;
 
+	/**
+	 * 过滤表达式
+	 */
 	@Nullable
 	private Filter.Expression filterExpression;
 
