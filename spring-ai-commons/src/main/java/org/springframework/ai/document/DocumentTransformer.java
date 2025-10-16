@@ -19,6 +19,9 @@ package org.springframework.ai.document;
 import java.util.List;
 import java.util.function.Function;
 
+/**
+ * 文档转换器
+ */
 public interface DocumentTransformer extends Function<List<Document>, List<Document>> {
 
 	default List<Document> transform(List<Document> transform) {
