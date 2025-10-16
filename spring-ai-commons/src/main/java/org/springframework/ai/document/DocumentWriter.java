@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 /**
+ * 文档写入器
  * Write a list of {@link Document} instances.
  *
  * @author Christian Tzolov
