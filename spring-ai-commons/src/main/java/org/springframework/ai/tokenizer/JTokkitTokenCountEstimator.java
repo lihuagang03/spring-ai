@@ -27,6 +27,7 @@ import org.springframework.ai.content.MediaContent;
 import org.springframework.util.CollectionUtils;
 
 /**
+ * JTokkit 词元计数估算器，使用 JTokkit 编码库估算给定文本或消息中的词元数量。
  * Estimates the number of tokens in a given text or message using the JTokkit encoding
  * library.
  *
@@ -37,6 +38,7 @@ import org.springframework.util.CollectionUtils;
 public class JTokkitTokenCountEstimator implements TokenCountEstimator {
 
 	/**
+	 * 编码实例，用于词元计数。
 	 * The JTokkit encoding instance used for token counting.
 	 */
 	private final Encoding estimator;

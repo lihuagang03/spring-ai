@@ -19,6 +19,7 @@ package org.springframework.ai.tokenizer;
 import org.springframework.ai.content.MediaContent;
 
 /**
+ * 词元计数估算器，估算给定文本或消息中的词元数量。
  * Estimates the number of tokens in a given text or message.
  *
  * @author Christian Tzolov
