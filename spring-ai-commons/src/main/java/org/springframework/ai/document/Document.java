@@ -33,6 +33,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 /**
+ * 文档内容是存放文档内容和元数据的容器。
  * A document is a container for the content and metadata of a document. It also contains
  * the document's unique ID.
  *
@@ -83,27 +84,33 @@ public class Document {
 	public static final ContentFormatter DEFAULT_CONTENT_FORMATTER = DefaultContentFormatter.defaultConfig();
 
 	/**
+	 * 唯一标识：每个文档的唯一ID
 	 * Unique ID
 	 */
 	private final String id;
 
 	/**
+	 * 文本内容
 	 * Document string content.
 	 */
 	private final String text;
 
 	/**
+	 * 媒体内容
 	 * Document media content
 	 */
 	private final Media media;
 
 	/**
+	 * 文档的元数据
 	 * Metadata for the document. It should not be nested and values should be restricted
 	 * to string, int, float, boolean for simple use with Vector Dbs.
 	 */
 	private final Map<String, Object> metadata;
 
 	/**
+	 * 评分机制：为文档设置一个评分，用于表示文档的相似性。
+	 * 与此文档相关联的数值分数，可表示各种类型的相关性度量。
 	 * A numeric score associated with this document that can represent various types of
 	 * relevance measures.
 	 * <p>
@@ -122,6 +129,7 @@ public class Document {
 	private final Double score;
 
 	/**
+	 * 可变的，短暂的，适用于文本格式器。默认为文档文本。
 	 * Mutable, ephemeral, content to text formatter. Defaults to Document text.
 	 */
 	@JsonIgnore
