@@ -21,6 +21,8 @@ import java.util.List;
 import org.springframework.ai.document.Document;
 
 /**
+ * 文档批处理策略，
+ * 对文档对象进行批处理的契约，以优化对它们进行嵌入的调用。
  * Contract for batching {@link Document} objects so that the call to embed them could be
  * optimized.
  *
@@ -30,6 +32,8 @@ import org.springframework.ai.document.Document;
 public interface BatchingStrategy {
 
 	/**
+	 * 定义将 Document 列表拆分为几个批次。
+	 * 嵌入模型的实现可以调用此方法来优化嵌入词元。
 	 * EmbeddingModel implementations can call this method to optimize embedding tokens.
 	 * The incoming collection of {@link Document}s are split into sub-batches. It is
 	 * important to preserve the order of the list of {@link Document}s when batching as

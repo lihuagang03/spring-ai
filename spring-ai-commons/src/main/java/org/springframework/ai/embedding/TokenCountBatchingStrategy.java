@@ -31,6 +31,9 @@ import org.springframework.ai.tokenizer.TokenCountEstimator;
 import org.springframework.util.Assert;
 
 /**
+ * 基于词元计数的批处理策略实现。
+ * 基于文档的 token 计数将 Document 列表对象分批处理，确保每个批次的 token 总数不超过指定的最大 token 数，
+ * 对缓冲区进行管理，通过设置 reservePercentage 参数（默认为 0.1），为每个批次保留一定比例的 token 数量，以应对处理过程中可能出现的 token 数量增加。
  * Token count based strategy implementation for {@link BatchingStrategy}. Using openai
  * max input token as the default:
  * https://platform.openai.com/docs/guides/embeddings/embedding-models.
@@ -65,12 +68,24 @@ public class TokenCountBatchingStrategy implements BatchingStrategy {
 	 */
 	private static final double DEFAULT_TOKEN_COUNT_RESERVE_PERCENTAGE = 0.1;
 
+	/**
+	 * 用于估算文档内容的 token 数
+	 */
 	private final TokenCountEstimator tokenCountEstimator;
 
+	/**
+	 * 实际允许的最大输入 token 数，默认为 8191
+	 */
 	private final int maxInputTokenCount;
 
+	/**
+	 * 文档内容格式化器
+	 */
 	private final ContentFormatter contentFormatter;
 
+	/**
+	 * 指定如何处理文档的元数据
+	 */
 	private final MetadataMode metadataMode;
 
 	public TokenCountBatchingStrategy() {
@@ -105,6 +120,7 @@ public class TokenCountBatchingStrategy implements BatchingStrategy {
 		Assert.isTrue(reservePercentage >= 0 && reservePercentage < 1, "ReservePercentage must be in range [0, 1)");
 		Assert.notNull(contentFormatter, "ContentFormatter must not be null");
 		Assert.notNull(metadataMode, "MetadataMode must not be null");
+
 		this.tokenCountEstimator = new JTokkitTokenCountEstimator(encodingType);
 		this.maxInputTokenCount = (int) Math.round(maxInputTokenCount * (1 - reservePercentage));
 		this.contentFormatter = contentFormatter;
@@ -128,6 +144,7 @@ public class TokenCountBatchingStrategy implements BatchingStrategy {
 		Assert.isTrue(reservePercentage >= 0 && reservePercentage < 1, "ReservePercentage must be in range [0, 1)");
 		Assert.notNull(contentFormatter, "ContentFormatter must not be null");
 		Assert.notNull(metadataMode, "MetadataMode must not be null");
+
 		this.tokenCountEstimator = tokenCountEstimator;
 		this.maxInputTokenCount = (int) Math.round(maxInputTokenCount * (1 - reservePercentage));
 		this.contentFormatter = contentFormatter;
@@ -144,6 +161,7 @@ public class TokenCountBatchingStrategy implements BatchingStrategy {
 		Map<Document, Integer> documentTokens = new LinkedHashMap<>();
 
 		for (Document document : documents) {
+			// 词元计数
 			int tokenCount = this.tokenCountEstimator
 				.estimate(document.getFormattedContent(this.contentFormatter, this.metadataMode));
 			if (tokenCount > this.maxInputTokenCount) {
@@ -155,6 +173,7 @@ public class TokenCountBatchingStrategy implements BatchingStrategy {
 
 		for (Document document : documentTokens.keySet()) {
 			Integer tokenCount = documentTokens.get(document);
+			// 确保每个批次的 token 总数不超过指定的最大 token 数
 			if (currentSize + tokenCount > this.maxInputTokenCount) {
 				batches.add(currentBatch);
 				currentBatch = new ArrayList<>();
