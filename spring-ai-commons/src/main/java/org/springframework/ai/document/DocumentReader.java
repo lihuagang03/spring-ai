@@ -19,6 +19,9 @@ package org.springframework.ai.document;
 import java.util.List;
 import java.util.function.Supplier;
 
+/**
+ * 文档阅读器
+ */
 public interface DocumentReader extends Supplier<List<Document>> {
 
 	default List<Document> read() {

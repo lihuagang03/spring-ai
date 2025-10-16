@@ -17,6 +17,7 @@
 package org.springframework.ai.document;
 
 /**
+ * 文档阅读器和向量存储中使用的常用文档元数据键集合。
  * Common set of metadata keys used in {@link Document}s by {@link DocumentReader}s and
  * VectorStores.
  *
@@ -28,6 +29,8 @@ public enum DocumentMetadata {
 // @formatter:off
 
 	/**
+	 * 文档嵌入与查询向量之间的距离度量。
+	 * 距离越小，它们越相似。这与相似度得分正好相反。
 	 * Measure of distance between the document embedding and the query vector.
 	 * The lower the distance, the more they are similar.
 	 * It's the opposite of the similarity score.
