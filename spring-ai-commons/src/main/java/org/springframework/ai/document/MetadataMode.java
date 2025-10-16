@@ -18,6 +18,15 @@ package org.springframework.ai.document;
 
 public enum MetadataMode {
 
-	ALL, EMBED, INFERENCE, NONE
+	ALL,
+	/**
+	 * 嵌入
+	 */
+	EMBED,
+	/**
+	 * 推理
+	 */
+	INFERENCE,
+	NONE
 
 }

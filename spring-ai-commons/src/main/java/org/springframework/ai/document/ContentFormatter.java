@@ -17,6 +17,7 @@
 package org.springframework.ai.document;
 
 /**
+ * 内容格式化器，将文档的文本和元数据转换为适合 AI 提示的文本表示。
  * Converts the Document text and metadata into an AI, prompt-friendly text
  * representation.
  *

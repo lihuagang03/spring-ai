@@ -52,16 +52,19 @@ public final class DefaultContentFormatter implements ContentFormatter {
 			TEMPLATE_CONTENT_PLACEHOLDER);
 
 	/**
+	 * 元数据模板
 	 * Template for how metadata is formatted, with {key} and {value} placeholders.
 	 */
 	private final String metadataTemplate;
 
 	/**
+	 * 元数据分隔符
 	 * Separator between metadata fields when converting to string.
 	 */
 	private final String metadataSeparator;
 
 	/**
+	 * 文本模板
 	 * Template for how Document text is formatted, with {content} and {metadata_string}
 	 * placeholders.
 	 */
