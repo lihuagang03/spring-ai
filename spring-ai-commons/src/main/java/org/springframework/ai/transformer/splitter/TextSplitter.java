@@ -28,6 +28,9 @@ import org.springframework.ai.document.ContentFormatter;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.document.DocumentTransformer;
 
+/**
+ * 文本分割器
+ */
 public abstract class TextSplitter implements DocumentTransformer {
 
 	private static final Logger logger = LoggerFactory.getLogger(TextSplitter.class);
@@ -84,6 +87,7 @@ public abstract class TextSplitter implements DocumentTransformer {
 			Map<String, Object> metadata = metadataList.get(i);
 			List<String> chunks = splitText(text);
 			if (chunks.size() > 1) {
+				// 将文档拆分成块
 				logger.info("Splitting up document into " + chunks.size() + " chunks.");
 			}
 			for (String chunk : chunks) {
@@ -107,6 +111,9 @@ public abstract class TextSplitter implements DocumentTransformer {
 		return documents;
 	}
 
+	/**
+	 * 将文档拆分成块
+	 */
 	protected abstract List<String> splitText(String text);
 
 }

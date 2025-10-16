@@ -28,6 +28,7 @@ import com.knuddels.jtokkit.api.IntArrayList;
 import org.springframework.util.Assert;
 
 /**
+ * 词元文本分割器，将文本拆分成目标词元大小的块。
  * A {@link TextSplitter} that splits text into chunks of a target size in tokens.
  *
  * @author Raphael Yu
