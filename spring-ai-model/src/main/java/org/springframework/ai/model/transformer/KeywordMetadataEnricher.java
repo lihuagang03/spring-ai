@@ -30,6 +30,7 @@ import org.springframework.ai.document.DocumentTransformer;
 import org.springframework.util.Assert;
 
 /**
+ * 关键词提取器，使用生成方法提取元数据字段。
  * Keyword extractor that uses generative to extract 'excerpt_keywords' metadata field.
  *
  * @author Christian Tzolov

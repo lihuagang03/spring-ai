@@ -31,6 +31,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
 /**
+ * 标题提取器，使用生成技术提取元数据字段，带相邻共享的。
  * Title extractor with adjacent sharing that uses generative to extract
  * 'section_summary', 'prev_section_summary', 'next_section_summary' metadata fields.
  *
