@@ -129,7 +129,7 @@ public class Document {
 	private final Double score;
 
 	/**
-	 * 可变的，短暂的，适用于文本格式器。默认为文档文本。
+	 * 内容到文本的格式化器
 	 * Mutable, ephemeral, content to text formatter. Defaults to Document text.
 	 */
 	@JsonIgnore
