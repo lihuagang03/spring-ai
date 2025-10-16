@@ -41,6 +41,8 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 /**
+ * Markdown 文档阅读器，
+ * 读取给定的 Markdown 资源，并将标题、段落或由水平线分隔的文本分组为文档。
  * Reads the given Markdown resource and groups headers, paragraphs, or text divided by
  * horizontal lines (depending on the
  * {@link MarkdownDocumentReaderConfig#horizontalRuleCreateDocument} configuration) into
