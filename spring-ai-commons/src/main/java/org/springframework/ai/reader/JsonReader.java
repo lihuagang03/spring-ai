@@ -32,6 +32,7 @@ import org.springframework.ai.document.DocumentReader;
 import org.springframework.core.io.Resource;
 
 /**
+ * JSON 文档读取器，一个读取 JSON 文档并将其转换为 Document 对象列表的类。
  * A class that reads JSON documents and converts them into a list of {@link Document}
  * objects.
  *

@@ -33,6 +33,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.util.StreamUtils;
 
 /**
+ * 文本阅读器，一个从资源中读取文本的文档阅读器。
  * A {@link DocumentReader} that reads text from a {@link Resource}.
  *
  * @author Craig Walls
