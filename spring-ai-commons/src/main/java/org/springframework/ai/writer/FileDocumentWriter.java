@@ -25,6 +25,7 @@ import org.springframework.ai.document.MetadataMode;
 import org.springframework.util.Assert;
 
 /**
+ * 文件文档写入器，将文档列表的内容写入文件。
  * Writes the content of a list of {@link Document}s into a file.
  *
  * @author Christian Tzolov

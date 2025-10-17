@@ -21,7 +21,8 @@ import java.util.List;
 import org.springframework.ai.document.Document;
 
 /**
- * 向量存储检索器
+ * 向量存储检索器，
+ * 一个提供对向量存储检索操作只读访问的函数式接口。
  * A functional interface that provides read-only access to vector store retrieval
  * operations. This interface extracts only the document retrieval functionality from
  * {@link VectorStore}, ensuring that mutation operations (add, delete) are not exposed.

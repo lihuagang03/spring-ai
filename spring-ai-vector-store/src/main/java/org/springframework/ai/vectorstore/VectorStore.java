@@ -30,6 +30,7 @@ import org.springframework.ai.vectorstore.observation.VectorStoreObservationConv
 import org.springframework.util.Assert;
 
 /**
+ * 向量存储接口，定义了在向量数据库中管理和查询文档的操作。
  * The {@code VectorStore} interface defines the operations for managing and querying
  * documents in a vector database. It extends {@link DocumentWriter} to support document
  * writing operations. Vector databases are specialized for AI applications, performing
